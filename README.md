@@ -69,10 +69,19 @@ cat .agents/manifest.json
 
 ## 📝 Contribuir una Nueva Skill
 
-1. Copia `.agents/skills/_template-skill/` con el nuevo nombre
-2. Rellena `SKILL.md` siguiendo la plantilla
-3. Añade tus archivos de referencia en `references/`
-4. Añade ejemplos de output en `examples/`
-5. Registra la skill en `.agents/manifest.json`
-6. Actualiza este README y `Consideraciones.md`
-7. Ejecuta `python .agents/scripts/validate_skills.py`
+Puedes generar una nueva skill automáticamente usando el script proporcionado:
+
+```bash
+python .agents/scripts/create_skill.py <nombre-skill> "<descripción>"
+```
+
+Este script:
+1. Copia la plantilla en `.agents/skills/<nombre-skill>/`
+2. Registra la nueva skill en `.agents/manifest.json`
+
+Después de ejecutarlo, recuerda:
+3. Rellenar el `SKILL.md` de tu nueva skill con la información específica
+4. Añadir tus archivos de referencia en `references/`
+5. Añadir ejemplos de output en `examples/`
+6. Actualizar este `README.md` (si es necesario documentarla) y `Consideraciones.md`
+7. Ejecutar `python .agents/scripts/validate_skills.py` para asegurar que todo esté correcto.
