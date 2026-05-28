@@ -96,6 +96,24 @@ Para activar una skill, simplemente describe lo que necesitas. El agente detecta
 
 7. **Docs Generator**: "Genera la documentación técnica para [proyecto/módulo]. Activa tu skill de Docs Generator y crea: docstrings para las funciones públicas, un README actualizado y configura MkDocs/TypeDoc para documentación automática."
 
+## Flujo Autónomo Nocturno (Comando `/goal`)
+
+El workspace está optimizado para tareas de larga duración (por ejemplo, dejar al agente trabajando toda la noche diseñando, validando y testeando código). Para esto se utiliza el comando especial **`/goal`**.
+
+### ¿Qué hace `/goal`?
+- **Autonomía total:** El agente no hace pausas para pedir confirmaciones en cada paso. Asume que estás ausente.
+- **Bucle de Auto-Corrección:** Si el agente escribe código, intentará ejecutar los tests. Si fallan, leerá los errores en la terminal y se auto-corregirá en un bucle continuo hasta que todo pase en verde.
+- **Multitarea:** El agente puede invocar *subagentes* para avanzar en múltiples frentes en paralelo.
+
+### Flujo Ideal (Fire-and-Forget)
+
+Para asegurar resultados óptimos sin supervisión:
+
+1. **La Especificación (Previa):** Pide a la skill `software-architect` que genere un documento con el diseño detallado (ej. `especificacion.md`) mientras estás presente para revisarlo.
+2. **Permisos de Terminal:** Asegúrate de conceder permisos de ejecución en la terminal antes de irte a dormir, para que el agente no se quede bloqueado esperando tu "Y" (Yes).
+3. **El Prompt Definitivo:**
+   > **`/goal`** Lee el archivo `especificacion.md`. Activa `project-scaffolder` para crear la base. Implementa toda la lógica. Luego, usa `test-strategist` para asegurar 100% de cobertura. Si un test falla, arréglalo. No te detengas hasta que toda la suite de pruebas esté pasando y el `README.md` generado con `docs-generator`.
+
 ## Mantenimiento
 
 ```bash
