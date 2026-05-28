@@ -1,2 +1,4 @@
-Antes de responder o ejecutar cualquier tarea, revisa obligatoriamente el directorio `.agents/skills/`. 
-Identifica cuál de las 4 habilidades se activa según tu sección de "Activación" en los archivos SKILL.md y adopta ese rol y sus referencias de inmediato.
+Antes de responder o ejecutar cualquier tarea, revisa obligatoriamente el directorio `.agents/skills/`.
+Consulta `.agents/manifest.json` para identificar cuál skill corresponde al contexto actual, usando la lista de `triggers` de cada skill como referencia de activación.
+Una vez identificada la skill, lee su `SKILL.md` completo y adopta ese rol, sus responsabilidades, y carga sus archivos de referencia de inmediato.
+Si la tarea involucra múltiples skills (ej. análisis + refactoring), actívalas secuencialmente en el orden lógico.

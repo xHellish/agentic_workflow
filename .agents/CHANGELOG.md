@@ -35,7 +35,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/).
 
 ---
 
-## [1.0.0] — 2026-05-01
+## [1.0.0] — 2026-05-27
 
 ### Añadido
 - Skill `software-architect` con `design-patterns.md` y `adr-template.md`

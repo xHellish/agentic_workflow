@@ -2,16 +2,21 @@
 
 ## Propósito
 
-Este workspace es un entorno agéntico diseñado para asistir en el diseño, análisis y mejora de proyectos de software. Contiene un conjunto de **Agent Skills** reutilizables que se activan según el contexto de la conversación.
+Este workspace es un entorno agéntico diseñado para asistir en el diseño, análisis y mejora de proyectos de software. Contiene un conjunto de **Agent Skills** reutilizables que se activan según el contexto de la conversación. La fuente de verdad de triggers y metadatos es `.agents/manifest.json`.
 
 ## Skills Disponibles
 
-| Skill | Descripción | Activación |
-|-------|-------------|------------|
-| `software-architect` | Diseño de arquitectura, diagramas, ADRs | "diseñar sistema", "arquitectura", "diagrama" |
-| `structure-analyzer` | Análisis de estructura de proyectos | "analizar estructura", "mapa de dependencias" |
+| Skill | Descripción | Triggers principales |
+|-------|-------------|----------------------|
+| `software-architect` | Diseño de arquitectura, diagramas C4, ADRs | "diseñar sistema", "arquitectura", "diagrama" |
+| `structure-analyzer` | Análisis de estructura de proyectos existentes | "analizar estructura", "mapa de dependencias" |
 | `code-improver` | Detección de code smells y refactoring | "mejorar código", "refactorizar", "code review" |
 | `project-scaffolder` | Scaffolding de proyectos nuevos | "crear proyecto", "inicializar", "setup" |
+| `test-strategist` | Estrategia de testing, anti-patrones, cobertura | "escribir tests", "TDD", "cobertura" |
+| `security-auditor` | Auditoría de seguridad OWASP, secretos, supply chain | "auditar seguridad", "vulnerabilidades", "OWASP" |
+| `docs-generator` | Generación de documentación técnica y runbooks | "generar documentación", "API docs", "runbook" |
+
+> Para la lista completa de triggers, consultar `.agents/manifest.json`.
 
 ## Convenciones
 
@@ -19,40 +24,84 @@ Este workspace es un entorno agéntico diseñado para asistir en el diseño, an�
 - Las instrucciones de las skills están en **inglés** (mejor procesamiento por los modelos)
 - Las **respuestas siempre deben ser en español**
 
+### Versionado
+- Todas las skills usan versionado semántico (`MAJOR.MINOR.PATCH`) en su frontmatter YAML
+- Los cambios se registran en `.agents/CHANGELOG.md`
+
 ### Estructura de Archivos
+
 ```
 Agentic Workspace/
 ├── .agents/
+│   ├── manifest.json              # Catálogo central de skills (fuente de verdad)
+│   ├── CHANGELOG.md               # Historial de cambios del workspace
+│   ├── scripts/
+│   │   └── validate_skills.py     # Validador de integridad de skills
 │   └── skills/
+│       ├── _template-skill/       # Plantilla para nuevas skills
 │       ├── software-architect/    # Diseño de software
 │       ├── structure-analyzer/    # Análisis de estructura
 │       ├── code-improver/         # Mejoras de código
-│       └── project-scaffolder/    # Scaffolding de proyectos
+│       ├── project-scaffolder/    # Scaffolding de proyectos
+│       ├── test-strategist/       # Testing y QA
+│       ├── security-auditor/      # Auditoría de seguridad
+│       └── docs-generator/        # Generación de documentación
+├── .clinerules                    # Regla de activación de skills
+├── .markdownlint.json             # Configuración de linter de Markdown
 ├── Consideraciones.md             # Este archivo
-└── [proyectos futuros...]
+├── mejoras_actuales.md            # Backlog de mejoras pendientes
+└── README.md                      # Documentación principal del workspace
 ```
 
+### Lenguajes Soportados
+
+| Lenguaje | Skills |
+|----------|--------|
+| Python | Todas |
+| JavaScript / TypeScript | Todas |
+| Go | `software-architect`, `structure-analyzer`, `code-improver`, `project-scaffolder` |
+| Java | `software-architect`, `structure-analyzer`, `code-improver`, `project-scaffolder` |
+| Rust | `project-scaffolder` |
+
 ### Patrones de Diseño
-No hay preferencia fija — se adaptan según el proyecto. Las skills están preparadas para recomendar el patrón más adecuado según el contexto.
+
+No hay preferencia fija — se adaptan según el proyecto. Las skills están preparadas para recomendar el patrón más adecuado según el contexto. Ver `software-architect/references/design-patterns.md`.
 
 ## Uso
 
-Para activar una skill, simplemente describe lo que necesitas. El agente detectará automáticamente cuál skill es relevante y cargará las instrucciones correspondientes.
+Para activar una skill, simplemente describe lo que necesitas. El agente detectará automáticamente cuál skill es relevante consultando los `triggers` en `manifest.json`.
 
 **Ejemplos:**
 - *"Quiero diseñar una API REST para gestión de usuarios"* → `software-architect`
 - *"Analiza la estructura de este proyecto"* → `structure-analyzer`
 - *"Revisa este código y sugiere mejoras"* → `code-improver`
 - *"Crea un nuevo proyecto con FastAPI"* → `project-scaffolder`
+- *"Escribe los tests para este módulo"* → `test-strategist`
+- *"Audita la seguridad de esta API"* → `security-auditor`
+- *"Genera la documentación de esta librería"* → `docs-generator`
 
-1. Para usar el Structure Analyzer
-"Por favor, activa tu skill de Structure Analyzer para mapear este repositorio. Analiza la organización de carpetas actual, contrástala con tus mejores prácticas en project-patterns.md y genérame un reporte técnico detallado con las fallas de convención de nombres o acoplamientos que encuentres."
+## Prompts de Activación Avanzada
 
-2. Para usar el Software Architect
-"Necesito definir la estructura para un nuevo módulo de [ej: pagos]. Invoca tu skill de Software Architect para traducir estos requisitos a componentes de software. Proponme los patrones de diseño adecuados basándote en tu guía de design-patterns.md y crea los contratos de las APIs."
+1. **Structure Analyzer**: "Por favor, activa tu skill de Structure Analyzer para mapear este repositorio. Analiza la organización de carpetas actual, contrástala con tus mejores prácticas en project-patterns.md y genérame un reporte técnico detallado con las fallas de convención de nombres o acoplamientos que encuentres."
 
-3. Para usar el Code Improver
-"Revisa el archivo [ruta/del/archivo]. Usa tu skill de Code Improver para detectar vulnerabilidades, anti-patrones o problemas de complejidad ciclomática apoyándote en tu catálogo de code-smells.md. Haz los cambios necesarios de forma automática pero avísame antes de ejecutar pruebas en la terminal."
+2. **Software Architect**: "Necesito definir la estructura para un nuevo módulo de [ej: pagos]. Invoca tu skill de Software Architect para traducir estos requisitos a componentes de software. Proponme los patrones de diseño adecuados basándote en tu guía de design-patterns.md y crea los contratos de las APIs."
 
-4. Para usar el Project Scaffolder
-"Voy a iniciar un nuevo microservicio de [ej: Python/FastAPI]. Activa tu skill de Project Scaffolder y genera la estructura base de directorios siguiendo tus project-templates.md. Configura también el linter, el formateador y déjame el archivo README listo."
+3. **Code Improver**: "Revisa el archivo [ruta/del/archivo]. Usa tu skill de Code Improver para detectar vulnerabilidades, anti-patrones o problemas de complejidad ciclomática apoyándote en tu catálogo de code-smells.md. Haz los cambios necesarios de forma automática."
+
+4. **Project Scaffolder**: "Voy a iniciar un nuevo microservicio de [ej: Python/FastAPI]. Activa tu skill de Project Scaffolder y genera la estructura base de directorios siguiendo tus project-templates.md. Configura también el linter, el formateador y déjame el archivo README listo."
+
+5. **Test Strategist**: "Revisa el módulo [ruta/del/módulo] y activa tu skill de Test Strategist. Define la estrategia de testing apropiada, detecta anti-patrones en los tests existentes y genera tests para los casos no cubiertos usando los patrones de testing-patterns.md."
+
+6. **Security Auditor**: "Realiza una auditoría de seguridad de [ruta/del/código]. Activa tu skill de Security Auditor y verifica los puntos del OWASP Top 10 de owasp-checklist.md que apliquen. Identifica vulnerabilidades y proporciona código de remediación."
+
+7. **Docs Generator**: "Genera la documentación técnica para [proyecto/módulo]. Activa tu skill de Docs Generator y crea: docstrings para las funciones públicas, un README actualizado y configura MkDocs/TypeDoc para documentación automática."
+
+## Mantenimiento
+
+```bash
+# Validar integridad de todas las skills
+python .agents/scripts/validate_skills.py
+
+# Linting de Markdown
+npx markdownlint-cli "**/*.md" --config .markdownlint.json
+```
