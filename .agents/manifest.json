@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "lastUpdated": "2026-05-28",
+  "workspace": "Agentic Workspace",
+  "description": "Catálogo central de Agent Skills del workspace. Fuente de verdad para nombres, versiones y triggers.",
+  "skills": [
+    {
+      "name": "software-architect",
+      "version": "1.0.0",
+      "description": "Diseña arquitectura de software. Genera diagramas C4, contratos de API y ADRs.",
+      "languages": ["Python", "JavaScript", "TypeScript", "Go", "Java"],
+      "skillFile": ".agents/skills/software-architect/SKILL.md",
+      "references": [
+        ".agents/skills/software-architect/references/design-patterns.md",
+        ".agents/skills/software-architect/references/adr-template.md"
+      ],
+      "triggers": [
+        "diseñar sistema",
+        "arquitectura",
+        "diagrama",
+        "ADR",
+        "diseña la arquitectura",
+        "define la estructura",
+        "patron de diseño"
+      ]
+    },
+    {
+      "name": "structure-analyzer",
+      "version": "1.0.0",
+      "description": "Analiza estructura de proyectos existentes. Mapea dependencias y evalúa salud del código.",
+      "languages": ["Python", "JavaScript", "TypeScript", "Go", "Java"],
+      "skillFile": ".agents/skills/structure-analyzer/SKILL.md",
+      "references": [
+        ".agents/skills/structure-analyzer/references/project-patterns.md"
+      ],
+      "triggers": [
+        "analizar estructura",
+        "mapa de dependencias",
+        "analiza este proyecto",
+        "estructura del proyecto",
+        "organización del código",
+        "auditoria de carpetas"
+      ]
+    },
+    {
+      "name": "code-improver",
+      "version": "1.0.0",
+      "description": "Detecta code smells y propone refactoring. Aplica principios SOLID, DRY, KISS.",
+      "languages": ["Python", "JavaScript", "TypeScript", "Go", "Java"],
+      "skillFile": ".agents/skills/code-improver/SKILL.md",
+      "references": [
+        ".agents/skills/code-improver/references/code-smells.md"
+      ],
+      "triggers": [
+        "mejorar código",
+        "refactorizar",
+        "code review",
+        "revisa este código",
+        "code smells",
+        "optimizar",
+        "SOLID"
+      ]
+    },
+    {
+      "name": "project-scaffolder",
+      "version": "1.0.0",
+      "description": "Genera scaffolding de proyectos con estructura, configuración y tooling listos para producción.",
+      "languages": ["Python", "JavaScript", "TypeScript", "Go", "Java", "Rust"],
+      "skillFile": ".agents/skills/project-scaffolder/SKILL.md",
+      "references": [
+        ".agents/skills/project-scaffolder/references/project-templates.md"
+      ],
+      "triggers": [
+        "crear proyecto",
+        "inicializar",
+        "setup",
+        "nuevo proyecto",
+        "scaffolding",
+        "boilerplate",
+        "estructura base"
+      ]
+    },
+    {
+      "name": "test-strategist",
+      "version": "1.0.0",
+      "description": "Define estrategia de testing, detecta anti-patrones y guía la cobertura de pruebas.",
+      "languages": ["Python", "JavaScript", "TypeScript"],
+      "skillFile": ".agents/skills/test-strategist/SKILL.md",
+      "references": [
+        ".agents/skills/test-strategist/references/testing-patterns.md"
+      ],
+      "triggers": [
+        "escribir tests",
+        "estrategia de testing",
+        "cobertura",
+        "pruebas unitarias",
+        "TDD",
+        "test doubles",
+        "flaky tests"
+      ]
+    },
+    {
+      "name": "security-auditor",
+      "version": "1.0.0",
+      "description": "Audita seguridad del código. Revisa OWASP Top 10, manejo de secretos y supply chain.",
+      "languages": ["Python", "JavaScript", "TypeScript"],
+      "skillFile": ".agents/skills/security-auditor/SKILL.md",
+      "references": [
+        ".agents/skills/security-auditor/references/owasp-checklist.md"
+      ],
+      "triggers": [
+        "auditar seguridad",
+        "vulnerabilidades",
+        "OWASP",
+        "seguridad del código",
+        "secretos",
+        "autenticación",
+        "SQL injection"
+      ]
+    },
+    {
+      "name": "docs-generator",
+      "version": "1.0.0",
+      "description": "Genera documentación técnica: API docs, runbooks, guías de usuario y diagramas de onboarding.",
+      "languages": ["Any"],
+      "skillFile": ".agents/skills/docs-generator/SKILL.md",
+      "references": [
+        ".agents/skills/docs-generator/references/docs-templates.md"
+      ],
+      "triggers": [
+        "generar documentación",
+        "documentar",
+        "API docs",
+        "runbook",
+        "guía de usuario",
+        "README",
+        "docstrings"
+      ]
+    }
+  ]
+}

@@ -1212,3 +1212,480 @@ class MessageBus {
 - Debugging difficulty — hard to trace the full event flow
 - Event schema evolution — changes to event data break subscribers
 - No guaranteed delivery order
+
+---
+
+## Data Access Patterns
+
+### Repository
+
+**Problem**: You need to abstract data access logic and decouple business logic from the persistence layer.
+
+**When to use**:
+- Any project with a database or external storage
+- When you want to test business logic without a real database
+- When you might switch storage technology (e.g., from PostgreSQL to MongoDB)
+
+**Python**:
+```python
+from typing import Protocol
+from uuid import UUID
+
+class UserRepository(Protocol):
+    def find_by_id(self, user_id: UUID) -> "User | None": ...
+    def find_by_email(self, email: str) -> "User | None": ...
+    def save(self, user: "User") -> None: ...
+    def delete(self, user_id: UUID) -> None: ...
+
+# SQLAlchemy implementation
+class SQLUserRepository:
+    def __init__(self, session: Session) -> None:
+        self._session = session
+
+    def find_by_id(self, user_id: UUID) -> "User | None":
+        return self._session.get(UserModel, user_id)
+
+    def find_by_email(self, email: str) -> "User | None":
+        return self._session.scalar(
+            select(UserModel).where(UserModel.email == email)
+        )
+
+    def save(self, user: "User") -> None:
+        self._session.merge(user)
+
+    def delete(self, user_id: UUID) -> None:
+        user = self._session.get(UserModel, user_id)
+        if user:
+            self._session.delete(user)
+
+# In-memory implementation (for tests)
+class InMemoryUserRepository:
+    def __init__(self) -> None:
+        self._store: dict[UUID, "User"] = {}
+
+    def find_by_id(self, user_id: UUID) -> "User | None":
+        return self._store.get(user_id)
+
+    def find_by_email(self, email: str) -> "User | None":
+        return next((u for u in self._store.values() if u.email == email), None)
+
+    def save(self, user: "User") -> None:
+        self._store[user.id] = user
+
+    def delete(self, user_id: UUID) -> None:
+        self._store.pop(user_id, None)
+```
+
+**TypeScript**:
+```typescript
+interface UserRepository {
+  findById(id: string): Promise<User | null>;
+  findByEmail(email: string): Promise<User | null>;
+  save(user: User): Promise<void>;
+  delete(id: string): Promise<void>;
+}
+
+// Prisma implementation
+class PrismaUserRepository implements UserRepository {
+  constructor(private prisma: PrismaClient) {}
+
+  async findById(id: string): Promise<User | null> {
+    return this.prisma.user.findUnique({ where: { id } });
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return this.prisma.user.findUnique({ where: { email } });
+  }
+
+  async save(user: User): Promise<void> {
+    await this.prisma.user.upsert({
+      where: { id: user.id },
+      create: user,
+      update: user,
+    });
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.prisma.user.delete({ where: { id } });
+  }
+}
+
+// In-memory (for tests)
+class InMemoryUserRepository implements UserRepository {
+  private store = new Map<string, User>();
+
+  async findById(id: string): Promise<User | null> {
+    return this.store.get(id) ?? null;
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return [...this.store.values()].find((u) => u.email === email) ?? null;
+  }
+
+  async save(user: User): Promise<void> {
+    this.store.set(user.id, user);
+  }
+
+  async delete(id: string): Promise<void> {
+    this.store.delete(id);
+  }
+}
+```
+
+**Pitfalls**:
+- Fat repositories that accumulate query logic — use Specification pattern for complex queries
+- Repository returning domain objects coupled to ORM models — use mappers to separate them
+- Testing with a real DB when InMemory would suffice
+
+---
+
+### Unit of Work
+
+**Problem**: You need to coordinate multiple repository operations within a single transaction boundary.
+
+**When to use**:
+- Operations that span multiple repositories must succeed or fail atomically
+- Avoiding partial writes that leave data in inconsistent state
+- When you need to track changes and commit them together
+
+**Python**:
+```python
+from contextlib import contextmanager
+from typing import Generator
+
+class UnitOfWork:
+    def __init__(self, session_factory) -> None:
+        self._session_factory = session_factory
+
+    def __enter__(self) -> "UnitOfWork":
+        self._session = self._session_factory()
+        self.users = SQLUserRepository(self._session)
+        self.orders = SQLOrderRepository(self._session)
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+        if exc_type:
+            self._session.rollback()
+        self._session.close()
+
+    def commit(self) -> None:
+        self._session.commit()
+
+    def rollback(self) -> None:
+        self._session.rollback()
+
+# Usage
+def transfer_order(uow: UnitOfWork, from_user_id: str, to_user_id: str, order_id: str):
+    with uow:
+        order = uow.orders.find_by_id(order_id)
+        order.owner_id = to_user_id
+        uow.orders.save(order)
+        uow.commit()  # Atomic — both changes or neither
+```
+
+**TypeScript**:
+```typescript
+interface UnitOfWork {
+  users: UserRepository;
+  orders: OrderRepository;
+  commit(): Promise<void>;
+  rollback(): Promise<void>;
+}
+
+class PrismaUnitOfWork implements UnitOfWork {
+  users: UserRepository;
+  orders: OrderRepository;
+
+  constructor(private prisma: PrismaClient) {
+    this.users = new PrismaUserRepository(prisma);
+    this.orders = new PrismaOrderRepository(prisma);
+  }
+
+  async commit(): Promise<void> {
+    // Prisma batches writes automatically within a transaction
+    await this.prisma.$transaction(async (tx) => {
+      // operations are committed here
+    });
+  }
+
+  async rollback(): Promise<void> {
+    // handled by Prisma transaction
+  }
+}
+```
+
+**Pitfalls**:
+- Long-lived units of work holding database connections
+- Forgetting to call commit() — changes are silently rolled back
+- Nested units of work creating unexpected transaction boundaries
+
+---
+
+### Middleware / Pipeline
+
+**Problem**: You need to add cross-cutting concerns (auth, logging, rate limiting, validation) to a request/response flow without cluttering the core handlers.
+
+**When to use**:
+- HTTP request processing (Express, Fastify, FastAPI)
+- Message/event processing pipelines
+- Command/query handling with decorators
+- Any chain of responsibility where each step can short-circuit
+
+**Python** (FastAPI middleware):
+```python
+from fastapi import Request
+from starlette.middleware.base import BaseHTTPMiddleware
+import time
+
+class RequestTimingMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        start = time.perf_counter()
+        response = await call_next(request)
+        duration = time.perf_counter() - start
+        response.headers["X-Process-Time"] = f"{duration:.4f}s"
+        return response
+
+class AuthMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        token = request.headers.get("Authorization")
+        if not token and not request.url.path.startswith("/public"):
+            return JSONResponse({"error": "Unauthorized"}, status_code=401)
+        return await call_next(request)
+
+app.add_middleware(RequestTimingMiddleware)
+app.add_middleware(AuthMiddleware)
+```
+
+**TypeScript** (Express-style pipeline):
+```typescript
+type Middleware<T> = (ctx: T, next: () => Promise<void>) => Promise<void>;
+
+class Pipeline<T> {
+  private middlewares: Middleware<T>[] = [];
+
+  use(middleware: Middleware<T>): this {
+    this.middlewares.push(middleware);
+    return this;
+  }
+
+  async execute(ctx: T): Promise<void> {
+    const run = async (index: number): Promise<void> => {
+      if (index >= this.middlewares.length) return;
+      await this.middlewares[index](ctx, () => run(index + 1));
+    };
+    await run(0);
+  }
+}
+
+// Usage
+const pipeline = new Pipeline<RequestContext>()
+  .use(authMiddleware)
+  .use(rateLimitMiddleware)
+  .use(loggingMiddleware)
+  .use(validationMiddleware);
+
+await pipeline.execute(requestContext);
+```
+
+**Pitfalls**:
+- Order of middleware matters — auth before business logic, logging around everything
+- Silent swallowing of next() — forgetting to call next stops the pipeline
+- Shared mutable context between middlewares causing subtle bugs
+
+---
+
+## Architectural Patterns
+
+### CQRS (Command Query Responsibility Segregation)
+
+**Problem**: Read and write operations have different scaling needs, complexity, and consistency requirements.
+
+**When to use**:
+- Read-heavy applications where query optimization is critical
+- Complex domain logic that differs significantly between reads and writes
+- Event-sourced systems
+- When you need different consistency guarantees for reads vs. writes
+
+**Python**:
+```python
+from dataclasses import dataclass
+from typing import Protocol
+
+# Commands (write side) — return None, cause side effects
+@dataclass
+class CreateOrderCommand:
+    user_id: str
+    item_ids: list[str]
+    shipping_address: str
+
+class CreateOrderHandler:
+    def __init__(self, repo: OrderRepository, event_bus: EventBus) -> None:
+        self.repo = repo
+        self.event_bus = event_bus
+
+    def handle(self, cmd: CreateOrderCommand) -> str:
+        order = Order.create(cmd.user_id, cmd.item_ids, cmd.shipping_address)
+        self.repo.save(order)
+        self.event_bus.publish("order.created", order.to_dict())
+        return order.id
+
+# Queries (read side) — return data, no side effects
+@dataclass
+class GetUserOrdersQuery:
+    user_id: str
+    page: int = 1
+    page_size: int = 20
+
+@dataclass
+class OrderSummary:
+    id: str
+    status: str
+    total: float
+    created_at: str
+
+class GetUserOrdersHandler:
+    def __init__(self, db) -> None:
+        self.db = db
+
+    def handle(self, query: GetUserOrdersQuery) -> list[OrderSummary]:
+        # Direct SQL for read — optimized, denormalized, no ORM overhead
+        rows = self.db.execute("""
+            SELECT o.id, o.status, o.total, o.created_at
+            FROM orders o
+            WHERE o.user_id = %s
+            ORDER BY o.created_at DESC
+            LIMIT %s OFFSET %s
+        """, (query.user_id, query.page_size, (query.page - 1) * query.page_size))
+        return [OrderSummary(**row) for row in rows]
+```
+
+**TypeScript**:
+```typescript
+// Command bus
+interface Command {}
+interface CommandHandler<TCommand extends Command, TResult = void> {
+  handle(command: TCommand): Promise<TResult>;
+}
+
+class CreateOrderCommand implements Command {
+  constructor(
+    public readonly userId: string,
+    public readonly itemIds: string[],
+  ) {}
+}
+
+class CreateOrderHandler implements CommandHandler<CreateOrderCommand, string> {
+  constructor(private repo: OrderRepository) {}
+
+  async handle(command: CreateOrderCommand): Promise<string> {
+    const order = Order.create(command.userId, command.itemIds);
+    await this.repo.save(order);
+    return order.id;
+  }
+}
+
+// Query bus — optimized read side
+interface Query<TResult> {}
+
+class GetUserOrdersQuery implements Query<OrderSummary[]> {
+  constructor(public readonly userId: string, public readonly page = 1) {}
+}
+```
+
+**Pitfalls**:
+- Overkill for simple CRUD — adds complexity without benefit
+- Eventual consistency in distributed CQRS (read model may lag behind write model)
+- Keeping read models in sync with write model requires care
+
+---
+
+### Dependency Injection Container
+
+**Problem**: Wiring up complex object graphs manually is tedious and couples your bootstrapping code to concrete implementations.
+
+**When to use**:
+- Applications with many interdependent services
+- When you want to swap implementations easily (e.g., real vs. fake in tests)
+- When managing object lifecycles (singleton, per-request, transient)
+
+**Python** (using `dependency-injector`):
+```python
+from dependency_injector import containers, providers
+from dependency_injector.wiring import inject, Provide
+
+class Container(containers.DeclarativeContainer):
+    config = providers.Configuration()
+
+    # Infrastructure
+    db_session = providers.Resource(create_session, url=config.database_url)
+
+    # Repositories
+    user_repo = providers.Factory(SQLUserRepository, session=db_session)
+    order_repo = providers.Factory(SQLOrderRepository, session=db_session)
+
+    # Services
+    email_service = providers.Singleton(SmtpEmailService, smtp_url=config.smtp_url)
+    user_service = providers.Factory(
+        UserService,
+        repo=user_repo,
+        email=email_service,
+    )
+
+# Usage in FastAPI
+@app.post("/users")
+@inject
+async def create_user(
+    body: CreateUserRequest,
+    service: UserService = Depends(Provide[Container.user_service]),
+):
+    return service.create(body.email, body.password)
+
+# Bootstrap
+container = Container()
+container.config.from_yaml("config.yml")
+container.wire(modules=[__name__])
+```
+
+**TypeScript** (manual DI container):
+```typescript
+class Container {
+  private _instances = new Map<string, unknown>();
+
+  register<T>(token: string, factory: () => T, singleton = true): void {
+    if (singleton) {
+      this._instances.set(token, factory());
+    } else {
+      // Store factory for transient instances
+      this._instances.set(`factory:${token}`, factory);
+    }
+  }
+
+  resolve<T>(token: string): T {
+    if (this._instances.has(token)) {
+      return this._instances.get(token) as T;
+    }
+    const factory = this._instances.get(`factory:${token}`) as () => T;
+    if (!factory) throw new Error(`No binding found for token: ${token}`);
+    return factory();
+  }
+}
+
+// Bootstrap
+const container = new Container();
+container.register("db", () => new PrismaClient());
+container.register("userRepo", () =>
+  new PrismaUserRepository(container.resolve("db"))
+);
+container.register("userService", () =>
+  new UserService(container.resolve("userRepo"))
+);
+
+// Resolve
+const userService = container.resolve<UserService>("userService");
+```
+
+**Pitfalls**:
+- Container becoming a service locator (anti-pattern) — prefer constructor injection
+- Circular dependencies causing infinite loops at startup
+- Over-engineering for small applications — manual wiring is fine for < 10 services
+- Hidden dependencies — container obscures what a class actually needs

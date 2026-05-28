@@ -2,6 +2,10 @@
 
 This document contains ready-to-use project templates with complete directory structures, configuration files, and development scripts.
 
+> **⚠️ Versiones de dependencias**: Las versiones especificadas en este documento fueron verificadas en **2026-05-28**.
+> Se recomienda revisar y actualizar las versiones trimestralmente o antes de iniciar un proyecto en producción.
+> Usa `pip index versions <package>` (Python) o `npm show <package> version` (Node) para verificar la versión más reciente.
+
 ---
 
 ## Python Templates

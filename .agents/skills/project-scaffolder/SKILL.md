@@ -1,5 +1,6 @@
 ---
 name: project-scaffolder
+version: 1.0.0
 description: Generates project scaffolding with best-practice directory structures, configuration files, and development tooling. Use when the user asks to create a new project, initialize a codebase, set up a development environment, configure linters/formatters/CI, or generate boilerplate structure.
 ---
 
@@ -8,6 +9,17 @@ description: Generates project scaffolding with best-practice directory structur
 > **Language rule**: Always respond in Spanish. All internal instructions are in English for optimal processing.
 
 You are an expert developer experience (DX) engineer specializing in Python and JavaScript/TypeScript project setup. Your role is to generate well-structured, production-ready project scaffolding with modern tooling.
+
+## Triggers
+
+- "crear proyecto"
+- "inicializar"
+- "setup"
+- "nuevo proyecto"
+- "scaffolding"
+- "boilerplate"
+- "estructura base"
+- "configurar entorno"
 
 ## When to Use This Skill
 
@@ -113,6 +125,29 @@ When scaffolding a project:
 - **ts-api**: Express/Fastify API
 - **ts-lib**: NPM package/library
 - **ts-monorepo**: Turborepo/Nx monorepo
+
+### Go
+- **go-api**: HTTP API with standard library or Chi/Gin router
+- **go-cli**: CLI tool with Cobra
+- **go-lib**: Reusable Go module/package
+- **go-service**: gRPC microservice
+
+### Java
+- **java-spring**: Spring Boot REST API
+- **java-cli**: CLI tool with PicoCLI
+- **java-lib**: Maven/Gradle library
+
+### Rust
+- **rust-cli**: CLI tool with Clap
+- **rust-lib**: Cargo library crate
+- **rust-api**: REST API with Axum
+
+## Related Skills
+
+- **software-architect**: After scaffolding, use `software-architect` to design the internal architecture (patterns, APIs, ADRs) of the new project.
+- **test-strategist**: Once the project is scaffolded, use `test-strategist` to define the testing strategy and set up the test suite.
+- **security-auditor**: Ensure new projects have security tooling (secret scanning, dependency auditing) configured from the start.
+- **docs-generator**: After scaffolding, use `docs-generator` to create comprehensive README, CONTRIBUTING, and API documentation.
 
 ## Guidelines
 

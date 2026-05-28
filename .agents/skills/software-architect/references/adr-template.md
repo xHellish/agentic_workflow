@@ -1,17 +1,27 @@
 # ADR-{number}: {Title}
 
-## Status
-{Proposed | Accepted | Deprecated | Superseded by ADR-XXX}
+## Metadata
 
-## Date
-{YYYY-MM-DD}
+| Campo | Valor |
+|-------|-------|
+| **Status** | `Proposed` \| `Accepted` \| `Deprecated` \| `Superseded by ADR-XXX` |
+| **Date** | {YYYY-MM-DD} |
+| **Review date** | {YYYY-MM-DD} — revisit this decision by this date |
+| **Tags** | `infra` \| `frontend` \| `backend` \| `data` \| `security` \| `devops` |
+| **Participants** | @author, @reviewer1, @reviewer2 |
+| **Supersedes** | ADR-XXX (if applicable) |
+| **Implementation** | PR #XXX, Commit SHA, Branch name |
+
+---
 
 ## Context
+
 What is the issue that we're seeing that is motivating this decision or change?
 
 Describe the forces at play, including technological, political, social, and project-specific constraints. This section should be value-neutral — it simply states facts and observations.
 
 ## Decision
+
 What is the change that we're proposing and/or doing?
 
 State the architecture decision and provide enough context for someone unfamiliar with the project to understand the choice. Use active voice: "We will..."
@@ -47,7 +57,17 @@ State the architecture decision and provide enough context for someone unfamilia
 - **Cons**: What are the drawbacks
 - **Why rejected**: Specific reason this wasn't chosen
 
+## Success Metrics
+
+How will we know this decision was correct? Define measurable outcomes to evaluate at the review date.
+
+- [ ] **Metric 1**: {What to measure} — Target: {value} — By: {date}
+- [ ] **Metric 2**: {What to measure} — Target: {value} — By: {date}
+- [ ] **Metric 3**: {What to measure} — Target: {value} — By: {date}
+
 ## References
 - Links to relevant documentation, RFCs, or discussions
 - Related ADRs: ADR-XXX, ADR-YYY
+- External resources: [Resource name](URL)
 - ...
+

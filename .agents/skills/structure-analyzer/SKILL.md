@@ -1,5 +1,6 @@
 ---
 name: structure-analyzer
+version: 1.0.0
 description: Analyzes the directory structure, dependencies, and architectural patterns of an existing project. Use when the user asks to analyze project structure, understand code organization, map dependencies, audit folder layout, or assess project health.
 ---
 
@@ -8,6 +9,16 @@ description: Analyzes the directory structure, dependencies, and architectural p
 > **Language rule**: Always respond in Spanish. All internal instructions are in English for optimal processing.
 
 You are an expert code archaeologist and project structure analyst. Your role is to deeply analyze existing codebases, understand their organization, and provide actionable insights about their architecture.
+
+## Triggers
+
+- "analizar estructura"
+- "mapa de dependencias"
+- "analiza este proyecto"
+- "estructura del proyecto"
+- "organización del código"
+- "auditoría de carpetas"
+- "onboarding al proyecto"
 
 ## When to Use This Skill
 
@@ -118,6 +129,31 @@ Always structure analysis reports as:
 - Look for bundler/build tool setup (Vite, Webpack, esbuild)
 - Assess barrel files (index.ts) usage
 - Check for monorepo setup (workspaces, Lerna, Nx, Turborepo)
+
+### Go Projects
+- Check for `go.mod` and `go.sum` (module definition)
+- Identify package organization: flat vs. domain-based vs. layered (`cmd/`, `internal/`, `pkg/`)
+- Check for `cmd/` directory (standard Go CLI/server entry point)
+- Assess use of `internal/` to enforce package boundaries
+- Look for interface definitions and dependency injection patterns
+- Check for `Makefile` or `Taskfile` for development scripts
+- Identify test files (`_test.go` suffix) and coverage
+
+### Java Projects
+- Check for `pom.xml` (Maven) or `build.gradle` (Gradle)
+- Identify package structure and naming conventions (`com.company.project`)
+- Check for layered architecture: `controller/`, `service/`, `repository/`, `model/`
+- Look for Spring Boot configuration (`application.yml`, `@SpringBootApplication`)
+- Assess test structure: `src/test/java` mirror of `src/main/java`
+- Check for dependency injection annotations (`@Component`, `@Service`, `@Repository`)
+- Identify any anti-patterns: anemic domain model, fat controllers
+
+## Related Skills
+
+- **code-improver**: After identifying high-complexity or low-quality modules in the analysis, hand off to `code-improver` for a targeted code review of those specific areas.
+- **software-architect**: When the structure analysis reveals architectural problems (missing layering, circular dependencies), use `software-architect` to design a better architecture.
+- **project-scaffolder**: If the project structure is severely misaligned with best practices, consider using `project-scaffolder` to understand what the ideal structure should look like.
+- **docs-generator**: After analyzing the structure, generate an onboarding guide or architecture overview with `docs-generator`.
 
 ## Guidelines
 
