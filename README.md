@@ -21,10 +21,13 @@ Simplemente describe tu tarea en lenguaje natural. El agente detectará automát
 ```
 Agentic Workspace/
 ├── .agents/
+│   ├── config.yaml                # Configuración global y pipelines
 │   ├── manifest.json              # Catálogo central de skills
 │   ├── CHANGELOG.md               # Historial de cambios del workspace
 │   ├── scripts/
-│   │   └── validate_skills.py     # Validador de integridad de skills
+│   │   ├── create_skill.py            # Generador de nuevas skills
+│   │   ├── generate_agent_rules.py    # Generador de reglas multi-agente
+│   │   └── validate_skills.py         # Validador de integridad del catálogo
 │   └── skills/
 │       ├── _template-skill/       # Plantilla para nuevas skills
 │       ├── software-architect/    # Diseño de arquitectura y ADRs
@@ -34,9 +37,13 @@ Agentic Workspace/
 │       ├── test-strategist/       # Estrategia de testing y QA
 │       ├── security-auditor/      # Auditoría de seguridad DevSecOps
 │       └── docs-generator/        # Generación de documentación técnica
+├── .clinerules                    # Reglas auto-generadas (Roo-Code/Cline)
+├── .pre-commit-config.yaml        # Hooks para validar calidad y seguridad
+├── AGENTS.md                      # Reglas auto-generadas (Gemini)
+├── CLAUDE.md                      # Reglas auto-generadas (Claude)
 ├── Consideraciones.md             # Decisiones técnicas del workspace
-├── mejoras_actuales.md            # Backlog de mejoras pendientes
-└── README.md                      # Este archivo
+├── README.md                      # Este archivo
+└── requirements.txt               # Dependencias Python del workspace
 ```
 
 ## 🛠️ Skills Disponibles
@@ -47,9 +54,18 @@ Agentic Workspace/
 | `structure-analyzer` | Análisis de estructura y dependencias | Python, JS/TS, Go, Java |
 | `code-improver` | Code smells, refactoring, SOLID | Python, JS/TS, Go, Java |
 | `project-scaffolder` | Scaffolding con tooling completo | Python, JS/TS, Go, Java, Rust |
-| `test-strategist` | Estrategia de testing y anti-patrones | Python, JS/TS |
-| `security-auditor` | OWASP, secretos, supply chain | Python, JS/TS |
-| `docs-generator` | API docs, runbooks, guías de usuario | Cualquiera |
+| `test-strategist` | Estrategia de testing y anti-patrones | Python, JS/TS, Go, Java |
+| `security-auditor` | OWASP, secretos, supply chain | Python, JS/TS, Go, Java |
+| `docs-generator` | API docs, runbooks, guías de usuario | Python, JS/TS, Go, Java |
+
+## 🔄 Pipelines Multi-Skill
+
+Para tareas complejas, las skills pueden encadenarse siguiendo los flujos definidos en `config.yaml`:
+
+- **new-project**: `software-architect` → `project-scaffolder` → `test-strategist` → `security-auditor` → `docs-generator`
+- **code-review**: `structure-analyzer` → `code-improver` → `security-auditor`
+- **audit-full**: `structure-analyzer` → `security-auditor` → `test-strategist` → `code-improver` → `docs-generator`
+- **quick-review**: `code-improver` → `security-auditor`
 
 ## 📏 Convenciones
 
@@ -60,8 +76,15 @@ Agentic Workspace/
 ## 🔧 Mantenimiento
 
 ```bash
+# Instalar dependencias del workspace y pre-commits
+pip install -r requirements.txt
+pre-commit install
+
 # Validar integridad de todas las skills
 python .agents/scripts/validate_skills.py
+
+# Generar reglas específicas para los diferentes agentes (Roo-Code, Claude, etc.)
+python .agents/scripts/generate_agent_rules.py
 
 # Ver catálogo de skills
 cat .agents/manifest.json

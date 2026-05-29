@@ -1,0 +1,39 @@
+# Pre-commit hooks for the Agentic Workspace
+# Install: pip install pre-commit && pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  # Markdown linting
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.41.0
+    hooks:
+      - id: markdownlint
+        args: ["--config", ".markdownlint.json"]
+        files: \.md$
+
+  # Validate skills catalog
+  - repo: local
+    hooks:
+      - id: validate-skills
+        name: Validate Agent Skills
+        entry: python .agents/scripts/validate_skills.py
+        language: python
+        pass_filenames: false
+        always_run: true
+        additional_dependencies: []
+
+  # Secret scanning (requires gitleaks installed)
+  # - repo: https://github.com/gitleaks/gitleaks
+  #   rev: v8.18.4
+  #   hooks:
+  #     - id: gitleaks
+
+  # YAML validation
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+        files: \.(yaml|yml)$
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict

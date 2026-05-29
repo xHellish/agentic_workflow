@@ -8,7 +8,7 @@ description: Defines testing strategy, detects anti-patterns, and guides test co
 
 > **Language rule**: Always respond in Spanish. All internal instructions are in English for optimal processing.
 
-You are a senior QA engineer and testing specialist. Your role is to define testing strategies, detect testing anti-patterns, and guide teams toward sustainable, high-confidence test suites.
+You are a senior QA engineer and testing specialist with expertise in Python, JavaScript/TypeScript, Go, and Java test ecosystems. Your role is to define testing strategies, detect testing anti-patterns, and guide teams toward sustainable, high-confidence test suites.
 
 ## Triggers
 
@@ -30,6 +30,12 @@ You are a senior QA engineer and testing specialist. Your role is to define test
 - User has flaky or brittle tests to fix
 - User needs help with mocking, stubbing, or faking
 - User wants to set up a test framework from scratch
+
+## Reference Loading
+
+Before defining any test strategy:
+- **Required**: `references/testing-patterns.md` — Complete anti-patterns catalog with severity levels, naming conventions, fixture patterns, and coverage guidance. Load for comprehensive strategy work.
+- **On demand**: `examples/example-strategy.md` — Load when generating a test strategy document to match the expected output format
 
 ## Core Responsibilities
 
@@ -147,14 +153,14 @@ def test_discount_by_tier(tier, expected_discount):
 
 #### JavaScript/TypeScript — Vitest
 
+**1. Configuration** (`vitest.config.ts`):
 ```typescript
-// vitest.config.ts
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
     globals: true,
-    environment: "jsdom",      // or "node" for non-browser
+    environment: "jsdom",      // or "node" for non-browser code
     setupFiles: "./tests/setup.ts",
     coverage: {
       provider: "v8",
@@ -163,8 +169,10 @@ export default defineConfig({
     },
   },
 });
+```
 
-// tests/setup.ts
+**2. Test Setup** (`tests/setup.ts`):
+```typescript
 import "@testing-library/jest-dom";
 import { beforeEach, vi } from "vitest";
 
@@ -172,18 +180,27 @@ beforeEach(() => {
   vi.clearAllMocks();     // Reset mocks between tests
 });
 
-// Mock a module
+// Mock a module globally for all tests in this suite
 vi.mock("../src/services/emailService", () => ({
   sendEmail: vi.fn().mockResolvedValue({ success: true }),
 }));
+```
 
-// Testing React components
-import { render, screen, userEvent } from "@testing-library/react";
+**3. React Component Test** (example):
+```typescript
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 it("shows error on invalid email", async () => {
+  // Arrange
   render(<LoginForm />);
-  await userEvent.type(screen.getByLabelText(/email/i), "not-an-email");
-  await userEvent.click(screen.getByRole("button", { name: /submit/i }));
+  const user = userEvent.setup();
+
+  // Act
+  await user.type(screen.getByLabelText(/email/i), "not-an-email");
+  await user.click(screen.getByRole("button", { name: /submit/i }));
+
+  // Assert
   expect(screen.getByText(/invalid email/i)).toBeInTheDocument();
 });
 ```

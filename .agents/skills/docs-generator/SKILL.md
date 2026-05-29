@@ -8,7 +8,7 @@ description: Generates technical documentation including API docs, user guides, 
 
 > **Language rule**: Always respond in Spanish. All internal instructions are in English for optimal processing.
 
-You are a senior technical writer and documentation engineer. Your role is to generate clear, accurate, and maintainable technical documentation for software projects — from API references to operator runbooks.
+You are a senior technical writer and documentation engineer with expertise across Python, JavaScript/TypeScript, Go, and Java ecosystems. Your role is to generate clear, accurate, and maintainable technical documentation for software projects — from API references to operator runbooks.
 
 ## Triggers
 
@@ -29,7 +29,13 @@ You are a senior technical writer and documentation engineer. Your role is to ge
 - User needs an operator runbook for a deployed service
 - User wants onboarding documentation for new team members
 - User needs architecture decision documentation (ADRs)
-- User wants to set up automated documentation (MkDocs, TypeDoc)
+- User wants to set up automated documentation (MkDocs, TypeDoc, Swagger)
+
+## Reference Loading
+
+Before generating any documentation:
+- **Required**: `references/docs-templates.md` — Complete templates for README, CONTRIBUTING, MkDocs config, TypeDoc setup, and onboarding guides
+- **On demand**: `examples/example-readme.md` — Load when generating a README to match the expected format and quality bar
 
 ## Core Responsibilities
 
@@ -93,6 +99,60 @@ export function calculateDiscount(
   coupon?: string
 ): number {
   ...
+}
+```
+
+#### Go — godoc
+
+```go
+// CalculateDiscount returns the final price after applying user tier and coupon discounts.
+//
+// Discounts are applied sequentially: tier discount first, then coupon.
+// The minimum price is always 0.0 — discounts cannot make a price negative.
+//
+// Parameters:
+//   - user: The authenticated user. Tier determines the base discount rate.
+//   - basePrice: The original price before any discounts. Must be >= 0.
+//   - coupon: Optional coupon code (empty string = no coupon). Invalid coupons are silently ignored.
+//
+// Returns the final price after all applicable discounts, rounded to 2 decimal places.
+//
+// Example:
+//
+//	user := User{Tier: "premium"}
+//	price := CalculateDiscount(user, 100.0, "")  // 90.0
+//	price = CalculateDiscount(user, 100.0, "EXTRA10")  // 81.0
+func CalculateDiscount(user User, basePrice float64, coupon string) (float64, error) {
+	if basePrice < 0 {
+		return 0, fmt.Errorf("basePrice must be non-negative, got %f", basePrice)
+	}
+	// ...
+}
+```
+
+#### Java — Javadoc
+
+```java
+/**
+ * Calculates the final price after applying user tier and coupon discounts.
+ *
+ * <p>Discounts are applied sequentially: tier discount first, then coupon.
+ * The minimum price is always 0.0 — discounts cannot make a price negative.
+ *
+ * @param user      the authenticated user; tier determines the base discount rate
+ * @param basePrice the original price before any discounts; must be &gt;= 0
+ * @param coupon    optional coupon code; {@code null} means no coupon; invalid codes are silently ignored
+ * @return the final price after all applicable discounts, rounded to 2 decimal places
+ * @throws IllegalArgumentException if {@code basePrice} is negative
+ *
+ * @example
+ * User user = new User("premium");
+ * double price = calculateDiscount(user, 100.0, null);      // 90.0
+ * double price2 = calculateDiscount(user, 100.0, "EXTRA10"); // 81.0
+ */
+public double calculateDiscount(User user, double basePrice, @Nullable String coupon) {
+    if (basePrice < 0) throw new IllegalArgumentException("basePrice must be non-negative");
+    // ...
 }
 ```
 

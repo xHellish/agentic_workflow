@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": "1.0.0",
-  "lastUpdated": "2026-05-28",
+  "version": "1.2.0",
+  "lastUpdated": "2026-05-29",
   "workspace": "Agentic Workspace",
   "description": "Catálogo central de Agent Skills del workspace. Fuente de verdad para nombres, versiones y triggers.",
   "skills": [
@@ -13,7 +13,8 @@
       "skillFile": ".agents/skills/software-architect/SKILL.md",
       "references": [
         ".agents/skills/software-architect/references/design-patterns.md",
-        ".agents/skills/software-architect/references/adr-template.md"
+        ".agents/skills/software-architect/references/adr-template.md",
+        ".agents/skills/software-architect/references/concurrency-patterns.md"
       ],
       "triggers": [
         "diseñar sistema",
@@ -107,7 +108,8 @@
       "languages": ["Python", "JavaScript", "TypeScript"],
       "skillFile": ".agents/skills/security-auditor/SKILL.md",
       "references": [
-        ".agents/skills/security-auditor/references/owasp-checklist.md"
+        ".agents/skills/security-auditor/references/owasp-checklist.md",
+        ".agents/skills/security-auditor/references/auth-patterns.md"
       ],
       "triggers": [
         "auditar seguridad",
@@ -138,5 +140,23 @@
         "docstrings"
       ]
     }
-  ]
+  ],
+  "pipelines": {
+    "new-project": {
+      "description": "Full pipeline for bootstrapping a new project",
+      "steps": ["software-architect", "project-scaffolder", "test-strategist", "security-auditor", "docs-generator"]
+    },
+    "code-review": {
+      "description": "Comprehensive code quality and security review",
+      "steps": ["structure-analyzer", "code-improver", "security-auditor"]
+    },
+    "audit-full": {
+      "description": "Full project health audit",
+      "steps": ["structure-analyzer", "security-auditor", "test-strategist", "code-improver", "docs-generator"]
+    },
+    "quick-review": {
+      "description": "Fast review of a single file or small module",
+      "steps": ["code-improver", "security-auditor"]
+    }
+  }
 }

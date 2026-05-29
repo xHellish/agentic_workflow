@@ -5,6 +5,45 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/).
 
 ---
 
+## [1.2.0] — 2026-05-29
+
+### Añadido
+- Sección `## Reference Loading` en **todas las skills** (7/7) para instrucción explícita de carga de referencias
+- Nuevo archivo `references/auth-patterns.md` en `security-auditor` con JWT (Python + TS), RBAC, OAuth2 PKCE y session security
+- Nuevo archivo `references/concurrency-patterns.md` en `software-architect` con patrones para Go, Java, Python async y TypeScript
+- Archivo `.agents/config.yaml` con configuración centralizada del workspace (idioma, lenguajes, pipelines, overrides por skill)
+- Archivo `requirements.txt` con dependencias Python del workspace (pytest, pyyaml, pip-audit)
+- Archivo `.pre-commit-config.yaml` con hooks de markdownlint, validate-skills y pre-commit-hooks
+- Script `generate_agent_rules.py` que genera reglas para múltiples agentes (Cline, Claude, Gemini, Copilot) desde `manifest.json`
+- Archivos `AGENTS.md` y `CLAUDE.md` para portabilidad multi-agente
+- Archivo `.github/copilot-instructions.md` para GitHub Copilot
+- Sección `pipelines` en `manifest.json` con 4 workflows orquestados (new-project, code-review, audit-full, quick-review)
+- Directorio `examples/` en `_template-skill` con `.gitkeep`
+- Sección `## Technology-Specific Checks` placeholder en `_template-skill`
+- Docstring conventions para Go (godoc) y Java (Javadoc) en `docs-generator`
+- Rúbrica objetiva para scorecards (🟢🟡🔴) en `structure-analyzer`
+- Scope guidance blockquote en `code-improver` Workflow section
+- Nota de pipelines disponibles en `.agents/config.yaml` referenciada en todas las reglas de agente
+
+### Corregido
+- **[BUG]** Lógica RBAC invertida en `security-auditor` — `current_user.role not in ROLE_HIERARCHY[minimum_role]` → `minimum_role not in ROLE_HIERARCHY[current_user.role]`
+- **[BUG]** Header HTTP deprecado `X-XSS-Protection: 1; mode=block` comentado con nota en `security-auditor`
+- **[BUG]** Template list mismatch en `project-scaffolder` — lista reducida a los 6 templates que realmente existen; nota agregada para stacks parciales (Go, Java, Rust)
+- **[BUG]** `_template-skill` frontmatter `name: skill-name` → `name: _template` para evitar registro como skill activa
+- **[BUG]** Typo "módigo" → "módulo" en `code-improver/examples/example-review.md`
+- **[BUG]** `create_skill.py` actualizó el string de reemplazo para coincidir con el nuevo frontmatter del template
+
+### Modificado
+- Persona descriptions de todas las skills ampliadas para reflejar soporte real (Python, JS/TS, Go, Java)
+- `software-architect` Section 7 (Concurrency) — código Go/Java movido a `references/concurrency-patterns.md`; sección condensada a principios + referencia
+- `test-strategist` bloque Vitest monolítico dividido en 3 bloques separados (config, setup, component test)
+- `_template-skill` expandido con meta-instrucciones, guía de directorio, Technology-Specific Checks placeholder y Language rule configurable
+- `validate_skills.py` — `## Reference Loading` añadida a secciones requeridas
+- `manifest.json` — versión bumped a 1.2.0, nuevas references para security-auditor y software-architect, sección `pipelines` añadida
+- `.clinerules` regenerado con instrucción de `## Reference Loading` y `config.yaml`
+
+---
+
 ## [1.1.0] — 2026-05-28
 
 ### Añadido

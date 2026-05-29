@@ -25,7 +25,7 @@ def create_skill(name, description):
     skill_md_path = new_skill_dir / "SKILL.md"
     if skill_md_path.exists():
         content = skill_md_path.read_text(encoding="utf-8")
-        content = content.replace("name: _template-skill", f"name: {name}")
+        content = content.replace("name: _template", f"name: {name}")
         content = content.replace("description: Template for creating new agent skills", f"description: {description}")
         skill_md_path.write_text(content, encoding="utf-8")
 

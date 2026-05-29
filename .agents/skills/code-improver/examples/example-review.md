@@ -6,7 +6,7 @@
 
 ## Resumen
 
-El módigo `user_service.py` presenta calidad general **Media-Baja**. Se identificaron 4 problemas, incluyendo 1 crítico (almacenamiento inseguro de contraseñas) y 1 alto (método demasiado largo que viola SRP).
+El módulo `user_service.py` presenta calidad general **Media-Baja**. Se identificaron 4 problemas, incluyendo 1 crítico (almacenamiento inseguro de contraseñas) y 1 alto (método demasiado largo que viola SRP).
 
 ## Scorecard
 

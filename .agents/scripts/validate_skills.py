@@ -33,6 +33,7 @@ REQUIRED_FRONTMATTER_FIELDS = {"name", "version", "description"}
 REQUIRED_SKILL_SECTIONS = [
     "## Triggers",
     "## When to Use This Skill",
+    "## Reference Loading",
     "## Workflow",
     "## Related Skills",
 ]
