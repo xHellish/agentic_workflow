@@ -31,6 +31,11 @@ This workspace uses a **skill-based agent architecture**. Before responding to a
 | `test-strategist` | "escribir tests", "estrategia de testing", "cobertura" (+4 more) | Define estrategia de testing, detecta anti-patrones y guía l... |
 | `security-auditor` | "auditar seguridad", "vulnerabilidades", "OWASP" (+4 more) | Audita seguridad del código. Revisa OWASP Top 10, manejo de ... |
 | `docs-generator` | "generar documentación", "documentar", "API docs" (+4 more) | Genera documentación técnica: API docs, runbooks, guías de u... |
+| `devops-engineer` | "devops engineer" | Diseña pipelines CI/CD, infraestructura como código (IaC), c... |
+| `git-workflow` | "git workflow" | Define estrategias de branching, conventional commits, PR te... |
+| `api-designer` | "api designer" | Diseña contratos de API (OpenAPI, GraphQL schemas), estrateg... |
+| `performance-engineer` | "performance engineer" | Profiling, load testing, benchmarking, caching, APM.... |
+| `database-designer` | "database designer" | ER diagrams, migration strategies, query optimization.... |
 
 ## Multi-Skill Pipelines
 
