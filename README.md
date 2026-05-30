@@ -73,6 +73,26 @@ Para tareas complejas, las skills pueden encadenarse siguiendo los flujos defini
 - **Idioma de instrucciones internas**: Inglés (mejor procesamiento por LLMs)
 - **Versionado de skills**: Semántico (`MAJOR.MINOR.PATCH`)
 
+## 🚀 Replicar el Workspace en Otro Proyecto
+
+Para utilizar este entorno agéntico en un nuevo proyecto, debes copiar la siguiente estructura base en la raíz de tu proyecto:
+
+1. **El directorio core de skills y configuración:**
+   - La carpeta `.agents/` completa (contiene `config.yaml`, `manifest.json`, los scripts y el directorio `skills/`).
+
+2. **Los archivos de reglas (System Prompts) para los agentes AI:**
+   - `.clinerules` (para Cline/Roo-Code)
+   - `.cursorrules` (para Cursor)
+   - `AGENTS.md` (para Gemini Code Assist)
+   - `CLAUDE.md` (para Claude)
+
+3. **(Opcional pero recomendado)** Archivos de configuración y documentación:
+   - `requirements.txt` (Para ejecutar `validate_skills.py` y `generate_agent_rules.py`)
+   - `.pre-commit-config.yaml`
+   - `Consideraciones.md`
+
+Para integrarlo, copia estos archivos en la raíz del nuevo proyecto y asegúrate de reiniciar tu agente (Cursor, Cline, Roo, Claude, etc) para que lea las nuevas reglas.
+
 ## 🔧 Mantenimiento
 
 ```bash
