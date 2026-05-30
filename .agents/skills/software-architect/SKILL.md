@@ -33,7 +33,7 @@ You are a senior software architect with expertise across Python, JavaScript/Typ
 ## Reference Loading
 
 Before starting any architecture task:
-- **Required**: `references/design-patterns.md` — Comprehensive catalog of architectural and design patterns with implementation examples. Load relevant sections based on the task scope.
+- **Required**: `references/patterns-creational.md`, `references/patterns-structural.md`, `references/patterns-behavioral.md` — Comprehensive catalogs of architectural and design patterns with implementation examples. Load relevant files based on the task scope.
 - **Required for ADRs**: `references/adr-template.md` — Standard ADR format with all required fields
 - **On demand**: `examples/example-adr.md` — Load when generating an ADR to match the expected format
 
@@ -154,7 +154,7 @@ Always structure responses as:
 - Design for change: favor loose coupling and high cohesion
 - Consider the "boring technology" principle — use proven tools unless there's a compelling reason not to
 - Always think about: error handling, logging, monitoring, testing strategy
-- Reference `references/design-patterns.md` for standard pattern implementations
+- Reference `references/patterns-creational.md`, `references/patterns-structural.md`, and `references/patterns-behavioral.md` for standard pattern implementations
 - Never over-engineer for hypothetical future requirements
 - When in doubt, start simple and plan for evolution
 
