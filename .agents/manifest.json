@@ -3,13 +3,19 @@
   "version": "1.2.0",
   "lastUpdated": "2026-05-29",
   "workspace": "Agentic Workspace",
-  "description": "Catálogo central de Agent Skills del workspace. Fuente de verdad para nombres, versiones y triggers.",
+  "description": "Cat\u00e1logo central de Agent Skills del workspace. Fuente de verdad para nombres, versiones y triggers.",
   "skills": [
     {
       "name": "software-architect",
       "version": "1.0.0",
-      "description": "Diseña arquitectura de software. Genera diagramas C4, contratos de API y ADRs.",
-      "languages": ["Python", "JavaScript", "TypeScript", "Go", "Java"],
+      "description": "Dise\u00f1a arquitectura de software. Genera diagramas C4, contratos de API y ADRs.",
+      "languages": [
+        "Python",
+        "JavaScript",
+        "TypeScript",
+        "Go",
+        "Java"
+      ],
       "skillFile": ".agents/skills/software-architect/SKILL.md",
       "references": [
         ".agents/skills/software-architect/references/design-patterns.md",
@@ -17,20 +23,26 @@
         ".agents/skills/software-architect/references/concurrency-patterns.md"
       ],
       "triggers": [
-        "diseñar sistema",
+        "dise\u00f1ar sistema",
         "arquitectura",
         "diagrama",
         "ADR",
-        "diseña la arquitectura",
+        "dise\u00f1a la arquitectura",
         "define la estructura",
-        "patron de diseño"
+        "patron de dise\u00f1o"
       ]
     },
     {
       "name": "structure-analyzer",
       "version": "1.0.0",
-      "description": "Analiza estructura de proyectos existentes. Mapea dependencias y evalúa salud del código.",
-      "languages": ["Python", "JavaScript", "TypeScript", "Go", "Java"],
+      "description": "Analiza estructura de proyectos existentes. Mapea dependencias y eval\u00faa salud del c\u00f3digo.",
+      "languages": [
+        "Python",
+        "JavaScript",
+        "TypeScript",
+        "Go",
+        "Java"
+      ],
       "skillFile": ".agents/skills/structure-analyzer/SKILL.md",
       "references": [
         ".agents/skills/structure-analyzer/references/project-patterns.md"
@@ -40,7 +52,7 @@
         "mapa de dependencias",
         "analiza este proyecto",
         "estructura del proyecto",
-        "organización del código",
+        "organizaci\u00f3n del c\u00f3digo",
         "auditoria de carpetas"
       ]
     },
@@ -48,16 +60,22 @@
       "name": "code-improver",
       "version": "1.0.0",
       "description": "Detecta code smells y propone refactoring. Aplica principios SOLID, DRY, KISS.",
-      "languages": ["Python", "JavaScript", "TypeScript", "Go", "Java"],
+      "languages": [
+        "Python",
+        "JavaScript",
+        "TypeScript",
+        "Go",
+        "Java"
+      ],
       "skillFile": ".agents/skills/code-improver/SKILL.md",
       "references": [
         ".agents/skills/code-improver/references/code-smells.md"
       ],
       "triggers": [
-        "mejorar código",
+        "mejorar c\u00f3digo",
         "refactorizar",
         "code review",
-        "revisa este código",
+        "revisa este c\u00f3digo",
         "code smells",
         "optimizar",
         "SOLID"
@@ -66,8 +84,15 @@
     {
       "name": "project-scaffolder",
       "version": "1.0.0",
-      "description": "Genera scaffolding de proyectos con estructura, configuración y tooling listos para producción.",
-      "languages": ["Python", "JavaScript", "TypeScript", "Go", "Java", "Rust"],
+      "description": "Genera scaffolding de proyectos con estructura, configuraci\u00f3n y tooling listos para producci\u00f3n.",
+      "languages": [
+        "Python",
+        "JavaScript",
+        "TypeScript",
+        "Go",
+        "Java",
+        "Rust"
+      ],
       "skillFile": ".agents/skills/project-scaffolder/SKILL.md",
       "references": [
         ".agents/skills/project-scaffolder/references/project-templates.md"
@@ -85,8 +110,12 @@
     {
       "name": "test-strategist",
       "version": "1.0.0",
-      "description": "Define estrategia de testing, detecta anti-patrones y guía la cobertura de pruebas.",
-      "languages": ["Python", "JavaScript", "TypeScript"],
+      "description": "Define estrategia de testing, detecta anti-patrones y gu\u00eda la cobertura de pruebas.",
+      "languages": [
+        "Python",
+        "JavaScript",
+        "TypeScript"
+      ],
       "skillFile": ".agents/skills/test-strategist/SKILL.md",
       "references": [
         ".agents/skills/test-strategist/references/testing-patterns.md"
@@ -104,8 +133,12 @@
     {
       "name": "security-auditor",
       "version": "1.0.0",
-      "description": "Audita seguridad del código. Revisa OWASP Top 10, manejo de secretos y supply chain.",
-      "languages": ["Python", "JavaScript", "TypeScript"],
+      "description": "Audita seguridad del c\u00f3digo. Revisa OWASP Top 10, manejo de secretos y supply chain.",
+      "languages": [
+        "Python",
+        "JavaScript",
+        "TypeScript"
+      ],
       "skillFile": ".agents/skills/security-auditor/SKILL.md",
       "references": [
         ".agents/skills/security-auditor/references/owasp-checklist.md",
@@ -115,48 +148,184 @@
         "auditar seguridad",
         "vulnerabilidades",
         "OWASP",
-        "seguridad del código",
+        "seguridad del c\u00f3digo",
         "secretos",
-        "autenticación",
+        "autenticaci\u00f3n",
         "SQL injection"
       ]
     },
     {
       "name": "docs-generator",
       "version": "1.0.0",
-      "description": "Genera documentación técnica: API docs, runbooks, guías de usuario y diagramas de onboarding.",
-      "languages": ["Any"],
+      "description": "Genera documentaci\u00f3n t\u00e9cnica: API docs, runbooks, gu\u00edas de usuario y diagramas de onboarding.",
+      "languages": [
+        "Any"
+      ],
       "skillFile": ".agents/skills/docs-generator/SKILL.md",
       "references": [
         ".agents/skills/docs-generator/references/docs-templates.md"
       ],
       "triggers": [
-        "generar documentación",
+        "generar documentaci\u00f3n",
         "documentar",
         "API docs",
         "runbook",
-        "guía de usuario",
+        "gu\u00eda de usuario",
         "README",
         "docstrings"
+      ]
+    },
+    {
+      "name": "devops-engineer",
+      "version": "1.0.0",
+      "description": "Dise\u00f1a pipelines CI/CD, infraestructura como c\u00f3digo (IaC), contenedores (Docker) y estrategias de despliegue cloud.",
+      "languages": [
+        "Any"
+      ],
+      "skillFile": ".agents/skills/devops-engineer/SKILL.md",
+      "references": [
+        ".agents/skills/devops-engineer/references/devops-patterns.md"
+      ],
+      "triggers": [
+        "crear pipeline",
+        "configurar ci/cd",
+        "dockerizar aplicación",
+        "infraestructura como código",
+        "terraform setup",
+        "github actions",
+        "despliegue en cloud",
+        "kubernetes manifest"
+      ]
+    },
+    {
+      "name": "git-workflow",
+      "version": "1.0.0",
+      "description": "Define estrategias de branching, conventional commits, PR templates y automatizaci\u00f3n de releases.",
+      "languages": [
+        "Any"
+      ],
+      "skillFile": ".agents/skills/git-workflow/SKILL.md",
+      "references": [
+        ".agents/skills/git-workflow/references/git-patterns.md"
+      ],
+      "triggers": [
+        "git workflow",
+        "estrategia de git",
+        "branching strategy",
+        "conventional commits",
+        "pr template",
+        "release automation",
+        "semantic release",
+        "pull request"
+      ]
+    },
+    {
+      "name": "api-designer",
+      "version": "1.0.0",
+      "description": "Dise\u00f1a contratos de API (OpenAPI, GraphQL schemas), estrategias de versionado y arquitecturas contract-first.",
+      "languages": [
+        "Any"
+      ],
+      "skillFile": ".agents/skills/api-designer/SKILL.md",
+      "references": [
+        ".agents/skills/api-designer/references/api-patterns.md"
+      ],
+      "triggers": [
+        "api designer",
+        "openapi",
+        "swagger",
+        "graphql schema",
+        "api design",
+        "restful",
+        "endpoint design",
+        "api versioning"
+      ]
+    },
+    {
+      "name": "performance-engineer",
+      "version": "1.0.0",
+      "description": "Profiling, load testing, benchmarking, caching, APM.",
+      "languages": [
+        "Any"
+      ],
+      "skillFile": ".agents/skills/performance-engineer/SKILL.md",
+      "references": [
+        ".agents/skills/performance-engineer/references/perf-patterns.md"
+      ],
+      "triggers": [
+        "performance engineer",
+        "slow",
+        "bottleneck",
+        "profiler",
+        "load test",
+        "benchmark",
+        "optimizar velocidad"
+      ]
+    },
+    {
+      "name": "database-designer",
+      "version": "1.0.0",
+      "description": "ER diagrams, migration strategies, query optimization.",
+      "languages": [
+        "Any"
+      ],
+      "skillFile": ".agents/skills/database-designer/SKILL.md",
+      "references": [
+        ".agents/skills/database-designer/references/db-patterns.md"
+      ],
+      "triggers": [
+        "database designer",
+        "diseñar base de datos",
+        "diagrama ER",
+        "optimizar queries",
+        "migraciones de base de datos",
+        "estrategia de índices"
       ]
     }
   ],
   "pipelines": {
     "new-project": {
       "description": "Full pipeline for bootstrapping a new project",
-      "steps": ["software-architect", "project-scaffolder", "test-strategist", "security-auditor", "docs-generator"]
+      "steps": [
+        "software-architect",
+        "project-scaffolder",
+        "test-strategist",
+        "security-auditor",
+        "docs-generator"
+      ]
     },
     "code-review": {
       "description": "Comprehensive code quality and security review",
-      "steps": ["structure-analyzer", "code-improver", "security-auditor"]
+      "steps": [
+        "structure-analyzer",
+        "code-improver",
+        "security-auditor"
+      ]
     },
     "audit-full": {
       "description": "Full project health audit",
-      "steps": ["structure-analyzer", "security-auditor", "test-strategist", "code-improver", "docs-generator"]
+      "steps": [
+        "structure-analyzer",
+        "security-auditor",
+        "test-strategist",
+        "code-improver",
+        "docs-generator"
+      ]
     },
     "quick-review": {
       "description": "Fast review of a single file or small module",
-      "steps": ["code-improver", "security-auditor"]
+      "steps": [
+        "code-improver",
+        "security-auditor"
+      ]
+    }
+  },
+  "metrics": {
+    "effectiveness_tracking": true,
+    "quality_gates_enforcement": true,
+    "selective_reference_loading": {
+      "enabled": true,
+      "chunk_size_kb": 20
     }
   }
 }

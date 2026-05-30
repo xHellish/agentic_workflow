@@ -5,6 +5,20 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/).
 
 ---
 
+## [1.3.0] — 2026-05-29
+
+### Añadido
+- **Skill `api-designer` completada**: `SKILL.md` estructurado, `api-patterns.md` con mejores prácticas REST/GraphQL y versionado, `example-api-review.md`.
+- **Skill `database-designer` completada**: `SKILL.md` estructurado, `db-patterns.md` con estrategias de indexación y migraciones, `example-schema.md`.
+- **Skill `devops-engineer` completada**: `SKILL.md` estructurado, `devops-patterns.md` con patrones Docker/CI/CD/IaC, `example-pipeline.md`.
+- **Skill `git-workflow` completada**: `SKILL.md` estructurado, `git-patterns.md` con Trunk-Based Dev y Conventional Commits, `example-pr-template.md`.
+- **Skill `performance-engineer` completada**: `SKILL.md` estructurado, `perf-patterns.md` con métricas clave y estrategias de caché, `example-perf-report.md`.
+
+### Modificado
+- `manifest.json`: Referencias actualizadas y triggers enriquecidos para `api-designer`, `database-designer`, `devops-engineer`, `git-workflow` y `performance-engineer`.
+
+---
+
 ## [1.2.0] — 2026-05-29
 
 ### Añadido
