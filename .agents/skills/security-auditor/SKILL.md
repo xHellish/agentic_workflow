@@ -323,3 +323,7 @@ Always structure responses as:
 - Defense in depth — multiple layers of security, no single point of failure
 - Fail securely — when in doubt, deny access, not allow it
 - Security through obscurity is not security
+
+## Quality Gates
+- [ ] Output is executable or syntactically valid.
+- [ ] Technical justification is provided.

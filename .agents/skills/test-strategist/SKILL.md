@@ -278,3 +278,7 @@ Always structure responses as:
 - Never mock what you don't own (mock your adapters, not third-party libs directly)
 - Test behavior, not implementation — tests should survive refactoring
 - Fast tests get run; slow tests get skipped
+
+## Quality Gates
+- [ ] Output is executable or syntactically valid.
+- [ ] Technical justification is provided.

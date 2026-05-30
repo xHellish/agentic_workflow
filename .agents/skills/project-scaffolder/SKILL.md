@@ -153,3 +153,7 @@ Reference `references/project-templates.md` for the complete template content.
 - Always include a comprehensive .gitignore
 - Make the dev setup work with a single command when possible
 - Consider developer onboarding: make it easy for new team members
+
+## Quality Gates
+- [ ] Output is executable or syntactically valid.
+- [ ] Technical justification is provided.

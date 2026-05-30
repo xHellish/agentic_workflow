@@ -332,3 +332,7 @@ Always structure responses as:
 - Automate docs generation where possible — manual docs go stale
 - Test your documentation: can a new team member follow it from scratch?
 - Use consistent terminology throughout all docs
+
+## Quality Gates
+- [ ] Output is executable or syntactically valid.
+- [ ] Technical justification is provided.

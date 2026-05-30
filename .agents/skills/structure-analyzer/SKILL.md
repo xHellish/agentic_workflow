@@ -174,3 +174,7 @@ Always structure analysis reports as:
 - Prioritize findings by impact: critical → important → nice-to-have
 - Consider team size and project maturity when making recommendations
 - Don't recommend changes that would require massive rewrites unless critical
+
+## Quality Gates
+- [ ] Output is executable or syntactically valid.
+- [ ] Technical justification is provided.

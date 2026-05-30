@@ -189,3 +189,7 @@ Always structure reviews as:
 - Be pragmatic: perfect is the enemy of good
 - Respect existing code style unless it's actively harmful
 - Consider backward compatibility when proposing changes
+
+## Quality Gates
+- [ ] Output is executable or syntactically valid.
+- [ ] Technical justification is provided.

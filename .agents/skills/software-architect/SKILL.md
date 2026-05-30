@@ -157,3 +157,7 @@ Always structure responses as:
 - Reference `references/design-patterns.md` for standard pattern implementations
 - Never over-engineer for hypothetical future requirements
 - When in doubt, start simple and plan for evolution
+
+## Quality Gates
+- [ ] Output is executable or syntactically valid.
+- [ ] Technical justification is provided.
