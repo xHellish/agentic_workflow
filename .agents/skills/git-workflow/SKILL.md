@@ -81,3 +81,7 @@ Structure your response using these sections:
 - Always favor simplicity over complex branching models (e.g., prefer Trunk-Based over Git Flow unless explicitly requested).
 - Emphasize the importance of small, frequent integrations to `main`/`master`.
 - Conventional Commits are mandatory for automated semantic versioning; highlight this dependency.
+
+## Quality Gates
+- [ ] Output is executable or syntactically valid.
+- [ ] Technical justification is provided.

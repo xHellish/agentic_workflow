@@ -15,6 +15,11 @@ Simplemente describe tu tarea en lenguaje natural. El agente detectará automát
 | "Escribe tests para..." | `test-strategist` |
 | "Audita la seguridad de..." | `security-auditor` |
 | "Genera documentación para..." | `docs-generator` |
+| "Crea un pipeline de CI/CD" | `devops-engineer` |
+| "Define la estrategia de ramas de git" | `git-workflow` |
+| "Diseña el contrato OpenAPI de..." | `api-designer` |
+| "Encuentra el cuello de botella de..." | `performance-engineer` |
+| "Diseña el esquema de base de datos para..." | `database-designer` |
 
 ## 📁 Estructura
 
@@ -36,7 +41,12 @@ Agentic Workspace/
 │       ├── project-scaffolder/    # Scaffolding de proyectos nuevos
 │       ├── test-strategist/       # Estrategia de testing y QA
 │       ├── security-auditor/      # Auditoría de seguridad DevSecOps
-│       └── docs-generator/        # Generación de documentación técnica
+│       ├── docs-generator/        # Generación de documentación técnica
+│       ├── devops-engineer/       # CI/CD, IaC, contenedores, cloud
+│       ├── git-workflow/          # Branching, commits, releases
+│       ├── api-designer/          # Contratos OpenAPI / GraphQL
+│       ├── performance-engineer/  # Profiling, load testing, caching
+│       └── database-designer/     # Esquemas, migraciones, queries
 ├── .clinerules                    # Reglas auto-generadas (Roo-Code/Cline)
 ├── .pre-commit-config.yaml        # Hooks para validar calidad y seguridad
 ├── AGENTS.md                      # Reglas auto-generadas (Gemini)
@@ -56,7 +66,12 @@ Agentic Workspace/
 | `project-scaffolder` | Scaffolding con tooling completo | Python, JS/TS, Go, Java, Rust |
 | `test-strategist` | Estrategia de testing y anti-patrones | Python, JS/TS, Go, Java |
 | `security-auditor` | OWASP, secretos, supply chain | Python, JS/TS, Go, Java |
-| `docs-generator` | API docs, runbooks, guías de usuario | Python, JS/TS, Go, Java |
+| `docs-generator` | API docs, runbooks, guías de usuario | Cualquiera |
+| `devops-engineer` | CI/CD, IaC, Docker, despliegue cloud | Cualquiera |
+| `git-workflow` | Branching, conventional commits, releases | Cualquiera |
+| `api-designer` | OpenAPI, GraphQL, versionado, contract-first | Cualquiera |
+| `performance-engineer` | Profiling, load testing, caching, APM | Cualquiera |
+| `database-designer` | Diagramas ER, migraciones, optimización | Cualquiera |
 
 ## 🔄 Pipelines Multi-Skill
 

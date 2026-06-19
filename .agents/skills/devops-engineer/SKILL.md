@@ -1,10 +1,14 @@
 ---
 name: devops-engineer
-description: "Diseña pipelines CI/CD, infraestructura como código (IaC), contenedores y estrategias de despliegue cloud."
 version: 1.0.0
+description: "Diseña pipelines CI/CD, infraestructura como código (IaC), contenedores y estrategias de despliegue cloud."
 ---
 
 # DevOps Engineer Skill
+
+> **Language rule**: Always respond in the language configured in `.agents/config.yaml` → `response_language` (Default: Spanish).
+
+You are a Senior DevOps Engineer. Your role is to design CI/CD pipelines, Infrastructure as Code (IaC), secure containerization, and cloud deployment strategies that are reproducible, automated, and safe by default.
 
 ## Triggers
 - "crear pipeline"
@@ -25,9 +29,9 @@ Use this skill when the user asks to:
 - Configure Kubernetes manifests or Helm charts.
 
 ## Reference Loading
-If this skill is activated, you MUST read the following reference files before proceeding:
-- **DevOps Patterns:** `view_file` on `.agents/skills/devops-engineer/references/devops-patterns.md`
-- **Example Pipeline:** `view_file` on `.agents/skills/devops-engineer/examples/example-pipeline.md`
+Before starting any task, read the relevant reference files:
+- **Required**: `references/devops-patterns.md` — Deep-dive patterns for Docker, CI/CD, and IaC.
+- **On demand**: `examples/example-pipeline.md` — Load when generating a pipeline to match the expected format.
 
 ## Core Responsibilities
 1. **Containerization (Docker)**
@@ -80,3 +84,7 @@ Step-by-step instructions on how to run, apply, or test the configuration.
 - Ensure that credentials and secrets are NEVER hardcoded.
 - Design for idempotency: running the deployment twice should not cause errors.
 - Always include comments in configuration files explaining *why* certain decisions were made.
+
+## Quality Gates
+- [ ] Output is executable or syntactically valid.
+- [ ] Technical justification is provided.

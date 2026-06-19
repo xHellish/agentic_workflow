@@ -15,6 +15,11 @@ Este workspace es un entorno agéntico diseñado para asistir en el diseño, an�
 | `test-strategist` | Estrategia de testing, anti-patrones, cobertura | "escribir tests", "TDD", "cobertura" |
 | `security-auditor` | Auditoría de seguridad OWASP, secretos, supply chain | "auditar seguridad", "vulnerabilidades", "OWASP" |
 | `docs-generator` | Generación de documentación técnica y runbooks | "generar documentación", "API docs", "runbook" |
+| `devops-engineer` | Pipelines CI/CD, IaC, contenedores, despliegue cloud | "crear pipeline", "configurar ci/cd", "github actions" |
+| `git-workflow` | Branching, conventional commits, PR templates, releases | "git workflow", "branching strategy", "conventional commits" |
+| `api-designer` | Contratos OpenAPI/GraphQL, versionado, contract-first | "api design", "openapi", "graphql schema" |
+| `performance-engineer` | Profiling, load testing, caching, APM | "profiling", "bottleneck", "load testing" |
+| `database-designer` | Diagramas ER, migraciones, optimización de queries | "diseñar base de datos", "diagrama ER", "optimizar queries" |
 
 > Para la lista completa de triggers, consultar `.agents/manifest.json`.
 
@@ -33,10 +38,13 @@ Este workspace es un entorno agéntico diseñado para asistir en el diseño, an�
 ```
 Agentic Workspace/
 ├── .agents/
+│   ├── config.yaml                # Configuración global y pipelines
 │   ├── manifest.json              # Catálogo central de skills (fuente de verdad)
 │   ├── CHANGELOG.md               # Historial de cambios del workspace
 │   ├── scripts/
-│   │   └── validate_skills.py     # Validador de integridad de skills
+│   │   ├── create_skill.py            # Generador de nuevas skills
+│   │   ├── generate_agent_rules.py    # Generador de reglas multi-agente
+│   │   └── validate_skills.py         # Validador de integridad de skills
 │   └── skills/
 │       ├── _template-skill/       # Plantilla para nuevas skills
 │       ├── software-architect/    # Diseño de software
@@ -45,7 +53,12 @@ Agentic Workspace/
 │       ├── project-scaffolder/    # Scaffolding de proyectos
 │       ├── test-strategist/       # Testing y QA
 │       ├── security-auditor/      # Auditoría de seguridad
-│       └── docs-generator/        # Generación de documentación
+│       ├── docs-generator/        # Generación de documentación
+│       ├── devops-engineer/       # CI/CD, IaC, contenedores
+│       ├── git-workflow/          # Branching, commits, releases
+│       ├── api-designer/          # Contratos de API (OpenAPI/GraphQL)
+│       ├── performance-engineer/  # Profiling, load testing, caching
+│       └── database-designer/     # Esquemas, migraciones, queries
 ├── .clinerules                    # Regla de activación de skills
 ├── .markdownlint.json             # Configuración de linter de Markdown
 ├── Consideraciones.md             # Este archivo
@@ -62,10 +75,11 @@ Agentic Workspace/
 | Go | `software-architect`, `structure-analyzer`, `code-improver`, `project-scaffolder` |
 | Java | `software-architect`, `structure-analyzer`, `code-improver`, `project-scaffolder` |
 | Rust | `project-scaffolder` |
+| Agnósticas (cualquier stack) | `docs-generator`, `devops-engineer`, `git-workflow`, `api-designer`, `performance-engineer`, `database-designer` |
 
 ### Patrones de Diseño
 
-No hay preferencia fija — se adaptan según el proyecto. Las skills están preparadas para recomendar el patrón más adecuado según el contexto. Ver `software-architect/references/design-patterns.md`.
+No hay preferencia fija — se adaptan según el proyecto. Las skills están preparadas para recomendar el patrón más adecuado según el contexto. Ver los catálogos de patrones en `software-architect/references/patterns-creational.md`, `patterns-structural.md` y `patterns-behavioral.md`.
 
 ## Uso
 
@@ -84,11 +98,11 @@ Para activar una skill, simplemente describe lo que necesitas. El agente detecta
 
 1. **Structure Analyzer**: "Por favor, activa tu skill de Structure Analyzer para mapear este repositorio. Analiza la organización de carpetas actual, contrástala con tus mejores prácticas en project-patterns.md y genérame un reporte técnico detallado con las fallas de convención de nombres o acoplamientos que encuentres."
 
-2. **Software Architect**: "Necesito definir la estructura para un nuevo módulo de [ej: pagos]. Invoca tu skill de Software Architect para traducir estos requisitos a componentes de software. Proponme los patrones de diseño adecuados basándote en tu guía de design-patterns.md y crea los contratos de las APIs."
+2. **Software Architect**: "Necesito definir la estructura para un nuevo módulo de [ej: pagos]. Invoca tu skill de Software Architect para traducir estos requisitos a componentes de software. Proponme los patrones de diseño adecuados basándote en tus catálogos de patterns-creational/structural/behavioral.md y crea los contratos de las APIs."
 
 3. **Code Improver**: "Revisa el archivo [ruta/del/archivo]. Usa tu skill de Code Improver para detectar vulnerabilidades, anti-patrones o problemas de complejidad ciclomática apoyándote en tu catálogo de code-smells.md. Haz los cambios necesarios de forma automática."
 
-4. **Project Scaffolder**: "Voy a iniciar un nuevo microservicio de [ej: Python/FastAPI]. Activa tu skill de Project Scaffolder y genera la estructura base de directorios siguiendo tus project-templates.md. Configura también el linter, el formateador y déjame el archivo README listo."
+4. **Project Scaffolder**: "Voy a iniciar un nuevo microservicio de [ej: Python/FastAPI]. Activa tu skill de Project Scaffolder y genera la estructura base de directorios siguiendo tus templates-common/python/ts.md. Configura también el linter, el formateador y déjame el archivo README listo."
 
 5. **Test Strategist**: "Revisa el módulo [ruta/del/módulo] y activa tu skill de Test Strategist. Define la estrategia de testing apropiada, detecta anti-patrones en los tests existentes y genera tests para los casos no cubiertos usando los patrones de testing-patterns.md."
 

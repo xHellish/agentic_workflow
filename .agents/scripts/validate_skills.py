@@ -36,7 +36,12 @@ REQUIRED_SKILL_SECTIONS = [
     "## Reference Loading",
     "## Workflow",
     "## Related Skills",
+    "## Quality Gates",
 ]
+
+# Matches local reference/example file mentions inside a SKILL.md body,
+# e.g. `references/foo.md` or `examples/bar.md` (also as the tail of a full path).
+LOCAL_REF_PATTERN = re.compile(r"(references|examples)/([\w.\-]+\.md)")
 REQUIRED_MANIFEST_SKILL_FIELDS = {
     "name", "version", "description", "languages", "skillFile", "references", "triggers"
 }
@@ -61,8 +66,17 @@ def parse_frontmatter(content: str) -> dict:
     for line in match.group(1).splitlines():
         if ":" in line:
             key, _, value = line.partition(":")
-            fields[key.strip()] = value.strip()
+            fields[key.strip()] = value.strip().strip('"').strip("'")
     return fields
+
+
+def extract_local_references(content: str) -> set[tuple[str, str]]:
+    """Return the set of (subdir, filename) reference/example files mentioned in a SKILL.md body.
+
+    Skips the frontmatter so that nothing in the YAML header is treated as a file mention.
+    """
+    body = re.sub(r"^---\n.*?\n---", "", content, count=1, flags=re.DOTALL)
+    return {(m.group(1), m.group(2)) for m in LOCAL_REF_PATTERN.finditer(body)}
 
 # ── Validaciones ──────────────────────────────────────────────────────────────
 
@@ -85,6 +99,13 @@ def validate_skill_directory(skill_dir: Path) -> list[str]:
         if field not in frontmatter or not frontmatter[field]:
             errors.append(f"[{skill_name}] SKILL.md missing frontmatter field: '{field}'")
 
+    # Frontmatter 'name' must match the directory name
+    fm_name = frontmatter.get("name", "")
+    if fm_name and fm_name != skill_name:
+        errors.append(
+            f"[{skill_name}] frontmatter name '{fm_name}' does not match directory name '{skill_name}'"
+        )
+
     # Version format check (semver)
     version = frontmatter.get("version", "")
     if version and not re.match(r"^\d+\.\d+\.\d+$", version):
@@ -99,6 +120,13 @@ def validate_skill_directory(skill_dir: Path) -> list[str]:
     refs_dir = skill_dir / "references"
     if not refs_dir.exists():
         errors.append(f"[{skill_name}] Missing references/ directory")
+
+    # 4b. Every reference/example file mentioned in the body must exist on disk
+    for subdir, filename in sorted(extract_local_references(content)):
+        if not (skill_dir / subdir / filename).exists():
+            errors.append(
+                f"[{skill_name}] SKILL.md references missing file: {subdir}/{filename}"
+            )
 
     # 5. examples/ directory (warning only)
     examples_dir = skill_dir / "examples"
@@ -126,12 +154,21 @@ def validate_manifest(manifest_data: dict, skills_on_disk: set[str]) -> list[str
             if field not in skill:
                 errors.append(f"[manifest:{skill_name}] Missing field: '{field}'")
 
-        # Verify skillFile exists on disk
+        # Verify skillFile exists on disk and its version matches the manifest
         skill_file = skill.get("skillFile", "")
         if skill_file:
             full_path = WORKSPACE_ROOT / skill_file
             if not full_path.exists():
                 errors.append(f"[manifest:{skill_name}] skillFile not found: {skill_file}")
+            else:
+                fm = parse_frontmatter(full_path.read_text(encoding="utf-8"))
+                manifest_version = skill.get("version", "")
+                skill_version = fm.get("version", "")
+                if manifest_version and skill_version and manifest_version != skill_version:
+                    errors.append(
+                        f"[manifest:{skill_name}] version mismatch: manifest '{manifest_version}' "
+                        f"vs SKILL.md '{skill_version}'"
+                    )
 
         # Verify reference files exist
         for ref in skill.get("references", []):

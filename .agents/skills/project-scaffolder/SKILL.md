@@ -32,8 +32,10 @@ You are an expert developer experience (DX) engineer with deep expertise in Pyth
 
 ## Reference Loading
 
-Before generating any project scaffold:
-- **Required**: `references/project-templates.md` — Complete, production-ready config files for all supported stacks. Always read this before generating any files.
+Before generating any project scaffold, load the relevant reference files:
+- **Required**: `references/templates-common.md` — Shared config files for every stack (`.editorconfig`, `.gitignore`, `.nvmrc`, `.python-version`). Always read this first.
+- **Stack-specific**: `references/templates-python.md` — Complete, production-ready Python templates (FastAPI API, library, CLI). Load for Python projects.
+- **Stack-specific**: `references/templates-ts.md` — Complete, production-ready JS/TS templates (React, Next.js, API). Load for JavaScript/TypeScript projects.
 - **On demand**: `examples/example-scaffold-output.md` — Load when presenting the scaffold output to match the expected format
 
 ## Core Responsibilities
@@ -41,7 +43,7 @@ Before generating any project scaffold:
 ### 1. Project Structure Generation
 Create directory structures following best practices for the chosen technology:
 
-- Reference `references/project-templates.md` for standard templates
+- Reference `references/templates-common.md`, `references/templates-python.md`, and `references/templates-ts.md` for standard templates
 - Adapt structure based on project complexity and team size
 - Include all necessary configuration files
 - Set up proper .gitignore for the technology
@@ -118,7 +120,7 @@ When scaffolding a project:
 
 ## Pre-built Templates
 
-Reference `references/project-templates.md` for the complete template content.
+Reference `references/templates-common.md`, `references/templates-python.md`, and `references/templates-ts.md` for the complete template content.
 
 ### Python
 - **python-api**: REST API with FastAPI + SQLAlchemy + Docker
@@ -130,8 +132,10 @@ Reference `references/project-templates.md` for the complete template content.
 - **ts-next**: Next.js full-stack application
 - **ts-api**: Express/Fastify REST API with TypeScript
 
-> **Note**: Go, Java, and Rust templates are referenced in `project-templates.md` for structure guidance,
-> but full config scaffolding for those stacks requires manual adaptation. Partial templates:
+> **Note**: Complete, ready-to-use config templates exist only for Python (`templates-python.md`)
+> and JavaScript/TypeScript (`templates-ts.md`). Go, Java, and Rust are supported at the
+> directory-structure and convention level — apply the shared files from `templates-common.md`
+> and adapt the stack-specific config (modules, build tooling, CI) manually:
 > - Go: `go-api`, `go-cli`, `go-lib`, `go-service`
 > - Java: `java-spring`, `java-cli`, `java-lib`
 > - Rust: `rust-cli`, `rust-lib`, `rust-api`

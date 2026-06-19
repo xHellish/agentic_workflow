@@ -5,6 +5,37 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/).
 
 ---
 
+## [1.3.1] — 2026-06-19
+
+### Corregido
+- **[BUG] Referencias rotas en `manifest.json`** — `software-architect` apuntaba a
+  `design-patterns.md` y `project-scaffolder` a `project-templates.md`, ambos divididos
+  en su día en varios archivos. El validador fallaba con exit 1.
+- **[BUG] Referencias rotas en `project-scaffolder/SKILL.md`** — 4 menciones a
+  `project-templates.md` actualizadas a `templates-common/python/ts.md`; nota de
+  Go/Java/Rust corregida (esa guía no sobrevivió a la división).
+- **[BUG] Versiones desincronizadas** — catálogo `1.2.0`→`1.3.1` (el CHANGELOG ya iba
+  por `1.3.0`) y `performance-engineer` `1.0.0`→`1.1.0` para coincidir con su `SKILL.md`.
+- **[BUG] Artefacto de plantilla** en `database-designer`: "Language rule" tenía los
+  corchetes `[Configure...]` sin limpiar.
+- **[BUG] Referencia rota en `Consideraciones.md`** corregida a los catálogos `patterns-*.md`.
+
+### Modificado
+- **`devops-engineer`** normalizado: frontmatter reordenado, "Language rule" y línea de rol
+  añadidas, y `Reference Loading` migrado de `view_file` (específico de Cline) a rutas relativas.
+- **`## Quality Gates`** añadido a `devops-engineer`, `git-workflow`, `performance-engineer`,
+  `database-designer` y `_template-skill`. Ahora las 12 skills lo incluyen.
+- **`Consideraciones.md`** y **`README.md`** actualizados para listar las 12 skills
+  (antes solo documentaban 7); `.gitignore` ampliado con cachés de Python.
+
+### Robustez
+- **`validate_skills.py` endurecido** con 3 checks nuevos: `name` del frontmatter == carpeta,
+  versión del manifest == versión del `SKILL.md`, y existencia en disco de cada archivo
+  `references/`/`examples/` citado en el cuerpo. `## Quality Gates` ahora es obligatorio.
+- **Tests** añadidos en `test_validate_skills.py` (7 en verde).
+
+---
+
 ## [1.3.0] — 2026-05-29
 
 ### Añadido

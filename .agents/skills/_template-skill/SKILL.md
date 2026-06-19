@@ -114,3 +114,9 @@ Always structure responses as:
 - [Guideline 3 — e.g., "Explain WHY something is a problem, not just WHAT"]
 - [Guideline 4]
 - [Guideline 5]
+
+## Quality Gates
+
+<!-- Minimum acceptance criteria the skill's output must meet. Keep or adapt these defaults. -->
+- [ ] Output is executable or syntactically valid.
+- [ ] Technical justification is provided.

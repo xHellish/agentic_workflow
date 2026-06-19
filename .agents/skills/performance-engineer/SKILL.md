@@ -84,3 +84,7 @@ Before starting any task, read the relevant reference files:
 - **Avoid Premature Optimization**: Focus on the hot paths and critical user journeys.
 - **Understand the Trade-offs**: E.g., caching improves latency but increases memory usage and complexity (cache invalidation).
 - **Think Horizontally and Vertically**: Consider both scaling out (more instances) and scaling up (more resources/efficiency).
+
+## Quality Gates
+- [ ] Output is executable or syntactically valid.
+- [ ] Technical justification is provided.
