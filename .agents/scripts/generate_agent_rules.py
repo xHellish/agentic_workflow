@@ -10,11 +10,12 @@ Uso:
     python .agents/scripts/generate_agent_rules.py  # generates all
 
 Agentes soportados:
-    - cline       → .clinerules
-    - cursor      → .cursorrules (appends/overwrites agent section)
-    - claude      → CLAUDE.md
-    - gemini      → AGENTS.md
-    - copilot     → .github/copilot-instructions.md
+    - cline          → .clinerules
+    - cursor         → .cursorrules (appends/overwrites agent section)
+    - claude         → CLAUDE.md
+    - claude-skills  → .claude/skills/<name>/SKILL.md (native skill launchers)
+    - gemini         → AGENTS.md
+    - copilot        → .github/copilot-instructions.md
 """
 
 import json
@@ -220,11 +221,64 @@ This workspace uses a skill-based agent architecture. When assisting with tasks:
     print(f"[OK] Generated {output_path.relative_to(WORKSPACE_ROOT)}")
 
 
+def generate_claude_skills(manifest: dict) -> None:
+    """Generate native Claude Code skill launchers in .claude/skills/<name>/SKILL.md.
+
+    Each launcher is a thin pointer: its frontmatter (name + description) is what Claude
+    Code uses to surface and activate the skill natively, while the full definition stays
+    in .agents/skills/ (single source of truth). This keeps the multi-agent portability
+    provided by manifest.json intact — re-run this generator after editing any skill.
+    """
+    skills = manifest.get("skills", [])
+    lang_note = (
+        "Responde siempre en el idioma configurado en `.agents/config.yaml` "
+        "(por defecto: español)."
+    )
+    skills_root = WORKSPACE_ROOT / ".claude" / "skills"
+    count = 0
+    for skill in skills:
+        name = skill.get("name", "")
+        if not name:
+            continue
+        description = skill.get("description", "").replace('"', "'")
+        triggers = skill.get("triggers", [])
+        triggers_line = ", ".join(f'"{t}"' for t in triggers)
+        source = f".agents/skills/{name}/SKILL.md"
+
+        content = f"""---
+name: {name}
+description: "{description}"
+---
+
+# {name}
+
+> {lang_note}
+
+Skill del **Agentic Workspace**. La definición completa vive en `{source}`
+(fuente única de verdad). Este archivo es solo el lanzador nativo de Claude Code.
+
+**Al activar esta skill:**
+1. Lee `{source}` completo y adopta su rol, responsabilidades y formato de salida.
+2. Sigue su sección `## Reference Loading` para cargar los archivos relevantes de
+   `.agents/skills/{name}/references/`.
+3. Verifica sus `## Quality Gates` antes de entregar.
+
+**Triggers:** {triggers_line}
+"""
+        output_path = skills_root / name / "SKILL.md"
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(content, encoding="utf-8")
+        count += 1
+
+    print(f"[OK] Generated {count} native skill launcher(s) under .claude/skills/")
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 GENERATORS = {
     "cline": generate_cline,
     "claude": generate_claude,
+    "claude-skills": generate_claude_skills,
     "gemini": generate_agents_md,
     "copilot": generate_copilot,
 }

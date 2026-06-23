@@ -45,13 +45,51 @@ Before starting any task, read the relevant reference files:
 - Implement and enforce Conventional Commits rules (`feat`, `fix`, `chore`, `docs`, `refactor`, etc.).
 - Suggest tools like `commitlint` and `husky` to automate commit message linting.
 
+```text
+feat(auth): add OAuth2 PKCE login flow        # → MINOR bump
+fix(api): handle null cursor in pagination    # → PATCH bump
+feat(api)!: rename /user to /users            # "!" = BREAKING → MAJOR bump
+```
+
+```js
+// commitlint.config.js — enforced via husky commit-msg hook
+module.exports = { extends: ["@commitlint/config-conventional"] };
+```
+
 ### 3. Pull Request Templates
 - Design detailed Pull Request templates that require developers to explain the *what* and *why* of their changes.
 - Ensure PR templates include checklists for tests, documentation, and code review criteria.
 
+```markdown
+<!-- .github/PULL_REQUEST_TEMPLATE.md -->
+## Qué cambia y por qué
+<!-- Contexto del problema y la solución -->
+
+## Checklist
+- [ ] Tests añadidos/actualizados y en verde
+- [ ] Documentación actualizada
+- [ ] Sin secretos ni credenciales en el diff
+- [ ] Breaking changes documentados (si aplica)
+```
+
 ### 4. Release Automation
 - Design automated release processes using Semantic Versioning.
 - Recommend tools (e.g., Semantic Release, Release Please) to automate version bumps, tag creation, and CHANGELOG.md generation based on commit history.
+
+```yaml
+# .github/workflows/release.yml — semantic-release on merge to main
+on:
+  push: { branches: [main] }
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions: { contents: write, issues: write, pull-requests: write }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npx semantic-release   # reads commits → bumps version, tags, CHANGELOG
+```
 
 ## Workflow
 1. **Analyze**: Understand the team's current development flow, pain points, and deployment cadence.

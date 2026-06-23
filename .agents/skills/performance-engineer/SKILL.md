@@ -36,24 +36,61 @@ Before starting any task, read the relevant reference files:
 ## Core Responsibilities
 
 ### 1. Profiling
-- Identify CPU, memory, and I/O bottlenecks.
-- Recommend tools (e.g., cProfile for Python, pprof for Go, clinic for Node.js).
+- Identify CPU, memory, and I/O bottlenecks. **Measure before optimizing.**
+- Recommend tools (e.g., cProfile/py-spy for Python, pprof for Go, clinic for Node.js).
 - Analyze flame graphs and execution traces.
+
+```bash
+# Python — sampling profiler on a running process (no code changes, prod-safe)
+py-spy record -o flame.svg --pid 12345
+# Deterministic profile of a script, sorted by cumulative time
+python -m cProfile -s cumtime app.py | head -20
+```
 
 ### 2. Load Testing
 - Design realistic test scenarios and user flows.
 - Configure tools like k6, JMeter, or Locust.
-- Define target metrics (Requests Per Second, p95/p99 latency).
+- Define target metrics (Requests Per Second, p95/p99 latency) as pass/fail thresholds.
+
+```javascript
+// k6 — ramp load and fail the run if p95 latency or error rate regress
+import http from "k6/http";
+import { check } from "k6";
+
+export const options = {
+  stages: [ { duration: "30s", target: 50 }, { duration: "1m", target: 50 } ],
+  thresholds: {
+    http_req_duration: ["p(95)<300"],   // 95% of requests under 300ms
+    http_req_failed: ["rate<0.01"],     // <1% errors
+  },
+};
+
+export default function () {
+  const res = http.get("https://api.example.com/users");
+  check(res, { "status is 200": (r) => r.status === 200 });
+}
+```
 
 ### 3. APM (Application Performance Monitoring)
 - Advise on distributed tracing and logging.
-- Define critical metrics and SLIs (Service Level Indicators) to monitor.
+- Define critical metrics and SLIs (Service Level Indicators) to monitor (RED / USE methods).
 - Suggest integrations with tools like Datadog, Prometheus, Grafana, or New Relic.
 
 ### 4. Caching Strategies
 - Design caching layers (Cache-Aside, Write-Through, Write-Behind).
 - Recommend TTLs, eviction policies (LRU, LFU), and invalidation strategies.
 - Optimize database queries and prevent N+1 issues.
+
+```python
+# Cache-Aside (lazy loading) with Redis — fall back to DB on miss, then populate
+def get_user(user_id: str) -> dict:
+    key = f"user:{user_id}"
+    if cached := redis.get(key):
+        return json.loads(cached)            # hit
+    user = db.fetch_user(user_id)            # miss → source of truth
+    redis.set(key, json.dumps(user), ex=300) # TTL 5 min to bound staleness
+    return user
+```
 
 ## Workflow
 1. **Analyze**: Review the current performance metrics, architecture, or code snippet. Identify suspected bottlenecks.

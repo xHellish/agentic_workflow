@@ -197,6 +197,42 @@ def validate_manifest(manifest_data: dict, skills_on_disk: set[str]) -> list[str
 
     return errors
 
+
+def validate_native_launchers(manifest_data: dict) -> list[str]:
+    """If .claude/skills/ exists (hybrid mode), ensure launchers stay in sync with the manifest.
+
+    Skips silently when .claude/skills/ is absent (portable-only mode), so the native
+    Claude Code launchers remain optional.
+    """
+    errors = []
+    claude_skills = WORKSPACE_ROOT / ".claude" / "skills"
+    if not claude_skills.exists():
+        return errors
+
+    manifest_names = {s.get("name", "") for s in manifest_data.get("skills", []) if s.get("name")}
+    for name in sorted(manifest_names):
+        launcher = claude_skills / name / "SKILL.md"
+        if not launcher.exists():
+            errors.append(
+                f"[.claude/skills] Missing launcher for '{name}' "
+                f"(run: generate_agent_rules.py --agent claude-skills)"
+            )
+            continue
+        fm = parse_frontmatter(launcher.read_text(encoding="utf-8"))
+        if fm.get("name") != name:
+            errors.append(
+                f"[.claude/skills:{name}] launcher name '{fm.get('name')}' does not match manifest"
+            )
+
+    # Flag orphan launchers (skill renamed/removed but launcher left behind)
+    for child in sorted(claude_skills.iterdir()):
+        if child.is_dir() and child.name not in manifest_names:
+            errors.append(
+                f"[.claude/skills] Orphan launcher '{child.name}' not in manifest.json"
+            )
+
+    return errors
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main() -> int:
@@ -250,6 +286,15 @@ def main() -> int:
                     total_errors += 1
             else:
                 ok("manifest.json is valid")
+
+            # Native Claude Code launchers (hybrid mode) must stay in sync
+            launcher_errors = validate_native_launchers(manifest_data)
+            if launcher_errors:
+                for e in launcher_errors:
+                    error(e)
+                    total_errors += 1
+            else:
+                ok(".claude/skills launchers in sync (or portable-only mode)")
         except json.JSONDecodeError as exc:
             error(f"manifest.json is not valid JSON: {exc}")
             total_errors += 1

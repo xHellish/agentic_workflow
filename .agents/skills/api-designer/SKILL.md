@@ -40,15 +40,70 @@ Before starting any task, read the relevant reference files:
 - Map operations to appropriate HTTP status codes (20x, 40x, 50x).
 - Design effective filtering, sorting, and pagination strategies (cursor vs offset).
 
+```jsonc
+// Cursor pagination response — scales on large datasets, stable under writes
+{
+  "data": [ { "id": 156, "name": "..." } ],
+  "page_info": {
+    "has_next_page": true,
+    "end_cursor": "eyJpZCI6MTU2fQ=="   // opaque; client sends back as ?after=
+  }
+}
+```
+
 ### 2. GraphQL Schema Design
 - Design clean and query-efficient GraphQL Types, Queries, Mutations, and Subscriptions.
 - Avoid N+1 issues in schema design where possible.
-- Design appropriate input types and payload responses.
+- Mutations return a payload with the modified object **and** typed user errors.
+
+```graphql
+type Mutation {
+  createUser(input: CreateUserInput!): CreateUserPayload!
+}
+
+input CreateUserInput { email: String!, name: String! }
+
+type CreateUserPayload {
+  user: User                 # null on failure
+  userErrors: [UserError!]!  # never throw for expected validation errors
+}
+
+type UserError { field: [String!]!, message: String! }
+```
 
 ### 3. OpenAPI Specification (OAS)
 - Write precise OpenAPI 3.x specifications for REST APIs.
 - Define reusable schemas, parameters, and responses.
 - Ensure proper documentation strings, examples, and security schemas are embedded.
+
+```yaml
+openapi: 3.1.0
+info: { title: Users API, version: 1.0.0 }
+paths:
+  /users/{id}:
+    get:
+      summary: Get a user by id
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+        "404": { description: Not Found }
+components:
+  securitySchemes:
+    bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }
+  schemas:
+    User:
+      type: object
+      required: [id, email]
+      properties:
+        id: { type: string }
+        email: { type: string, format: email }
+```
 
 ### 4. Versioning Strategies
 - Determine the best versioning strategy for the context (URI, Header, Query Parameter).

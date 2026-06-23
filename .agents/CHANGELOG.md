@@ -5,6 +5,30 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/).
 
 ---
 
+## [1.4.0] — 2026-06-22
+
+### Añadido
+- **Skills nativas de Claude Code (modo híbrido)**: nuevo target del generador,
+  `generate_agent_rules.py --agent claude-skills`, que emite lanzadores finos en
+  `.claude/skills/<name>/SKILL.md`. La activación es nativa en Claude Code, pero
+  `.agents/skills/` sigue siendo la fuente única de verdad (la portabilidad
+  multi-agente vía `manifest.json` queda intacta).
+- **Chequeo de sincronía de lanzadores** en `validate_skills.py`: si existe
+  `.claude/skills/`, verifica que cada skill del manifest tenga su lanzador con el
+  `name` correcto y detecta huérfanos. Se omite en modo portable (sin `.claude/`).
+
+### Modificado
+- **Nivelación de las 5 skills "delgadas"** (`devops-engineer`, `git-workflow`,
+  `api-designer`, `performance-engineer`, `database-designer`): añadidos ejemplos
+  concretos de código/config al estilo de las skills originales — Dockerfile
+  multi-stage no-root, GitHub Actions fail-fast, backend remoto Terraform,
+  Conventional Commits + commitlint, PR template, OpenAPI 3.1, schema GraphQL con
+  payload/userErrors, script k6, Cache-Aside con Redis, diagrama ER Mermaid,
+  migración expand-and-contract e índices `CONCURRENTLY`.
+- `.gitignore`: ignora `.claude/settings.local.json` (los lanzadores sí se versionan).
+
+---
+
 ## [1.3.1] — 2026-06-19
 
 ### Corregido

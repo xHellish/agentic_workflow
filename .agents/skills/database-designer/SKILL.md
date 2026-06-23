@@ -38,14 +38,52 @@ Before starting any task, read the relevant reference files:
 ### 1. Schema Design (ER Diagrams)
 Design logical and physical data models. Create precise Entity-Relationship diagrams using Mermaid.js that illustrate tables, keys, constraints, and relationships clearly.
 
+```mermaid
+erDiagram
+    USER ||--o{ ORDER : places
+    ORDER ||--|{ ORDER_ITEM : contains
+    PRODUCT ||--o{ ORDER_ITEM : "appears in"
+    USER {
+        uuid id PK
+        string email UK
+        timestamp created_at
+    }
+    ORDER {
+        uuid id PK
+        uuid user_id FK
+        numeric total
+    }
+```
+
 ### 2. Normalization and Denormalization
 Apply normalization rules (e.g., up to 3NF) to ensure data integrity and reduce redundancy. Denormalize strategically when read performance dictates a need for flattened data structures.
 
 ### 3. Migration Strategies
 Plan and review database schema changes using zero-downtime techniques (e.g., Expand and Contract pattern). Ensure migrations do not lock tables unexpectedly during deployment.
 
+```sql
+-- Expand & Contract: rename email → contact_email with zero downtime
+-- 1. EXPAND: add the new column (nullable, no lock-heavy default)
+ALTER TABLE users ADD COLUMN contact_email text;
+-- 2. App dual-writes both columns; 3. BACKFILL in batches:
+UPDATE users SET contact_email = email WHERE contact_email IS NULL LIMIT 5000;
+-- 4. App reads new column; 5. CONTRACT (after verifying):
+ALTER TABLE users DROP COLUMN email;
+```
+
 ### 4. Query Optimization
 Analyze data access patterns to recommend B-Tree, Hash, or Compound indexing strategies. Identify query anti-patterns (such as N+1) and provide optimized alternatives.
+
+```sql
+-- Compound index: most-selective / left-most prefix matches WHERE + ORDER BY
+CREATE INDEX CONCURRENTLY idx_orders_user_created
+    ON orders (user_id, created_at DESC);   -- CONCURRENTLY avoids table lock
+```
+
+```python
+# N+1 fix: eager-load the relationship instead of lazy-loading per row
+orders = session.query(Order).options(joinedload(Order.items)).all()  # 1 query, not 1+N
+```
 
 ## Workflow
 

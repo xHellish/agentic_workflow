@@ -34,18 +34,70 @@ Before starting any task, read the relevant reference files:
 - **On demand**: `examples/example-pipeline.md` — Load when generating a pipeline to match the expected format.
 
 ## Core Responsibilities
-1. **Containerization (Docker)**
-   - Design optimized, secure Dockerfiles using multi-stage builds.
-   - Run containers with least-privilege principles (non-root users).
-   - Optimize caching and minimize image size.
-2. **CI/CD Pipelines**
-   - Build robust continuous integration and deployment workflows.
-   - Implement "fail fast" principles and parallelize tests.
-   - Automate vulnerability scanning and code quality checks.
-3. **Infrastructure as Code (IaC)**
-   - Provide modular and DRY Terraform configurations.
-   - Secure state management and sensitive values.
-   - Provision scalable and resilient cloud resources.
+
+### 1. Containerization (Docker)
+- Design optimized, secure Dockerfiles using multi-stage builds.
+- Run containers with least-privilege principles (non-root users).
+- Order layers least→most volatile to maximize cache; pin minimal base tags (never `latest`).
+
+```dockerfile
+# ✅ Multi-stage, non-root, cache-friendly (Node example)
+FROM node:22-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci                      # deps first → cached until package*.json changes
+COPY . .
+RUN npm run build
+
+FROM node:22-alpine AS runtime
+WORKDIR /app
+ENV NODE_ENV=production
+RUN addgroup -S app && adduser -S app -G app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+USER app                        # never run as root
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+```
+
+### 2. CI/CD Pipelines
+- Build robust continuous integration and deployment workflows.
+- Implement "fail fast" principles and parallelize tests.
+- Build the artifact **once**, tag it with the commit SHA, and promote that same image across envs.
+
+```yaml
+# .github/workflows/ci.yml — fail-fast: cheapest checks first
+name: CI
+on: [push, pull_request]
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run lint          # fast checks gate the slow ones
+      - run: npm test -- --coverage
+```
+
+### 3. Infrastructure as Code (IaC)
+- Provide modular and DRY Terraform configurations.
+- Use **remote state** with locking; never commit state files or secrets.
+- Apply least-privilege IAM to deployment roles.
+
+```hcl
+# Remote state backend (S3 + DynamoDB lock) — never local state for teams
+terraform {
+  backend "s3" {
+    bucket         = "myorg-tfstate"
+    key            = "app/prod.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "tf-locks"
+    encrypt        = true
+  }
+}
+```
 
 ## Workflow
 1. **Analyze Requirements**: Understand the target environment, technology stack, and deployment goals.

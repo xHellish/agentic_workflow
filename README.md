@@ -47,6 +47,8 @@ Agentic Workspace/
 │       ├── api-designer/          # Contratos OpenAPI / GraphQL
 │       ├── performance-engineer/  # Profiling, load testing, caching
 │       └── database-designer/     # Esquemas, migraciones, queries
+├── .claude/
+│   └── skills/                    # Lanzadores nativos de Claude Code (auto-generados)
 ├── .clinerules                    # Reglas auto-generadas (Roo-Code/Cline)
 ├── .pre-commit-config.yaml        # Hooks para validar calidad y seguridad
 ├── AGENTS.md                      # Reglas auto-generadas (Gemini)
@@ -88,6 +90,17 @@ Para tareas complejas, las skills pueden encadenarse siguiendo los flujos defini
 - **Idioma de instrucciones internas**: Inglés (mejor procesamiento por LLMs)
 - **Versionado de skills**: Semántico (`MAJOR.MINOR.PATCH`)
 
+## 🧩 Modelo de Activación (Híbrido)
+
+`.agents/skills/` es la **fuente única de verdad**. Desde ahí se generan dos cosas:
+
+- **`.claude/skills/`** — lanzadores nativos para **Claude Code**. Claude Code los descubre
+  y activa solos por su `description`; cada lanzador apunta al `SKILL.md` real en `.agents/`.
+- **`.clinerules` / `.cursorrules` / `AGENTS.md` / `CLAUDE.md`** — reglas para otros agentes.
+
+Así tienes activación nativa en Claude Code **sin perder** portabilidad multi-agente. Tras
+editar cualquier skill o el `manifest.json`, **regenera** con `generate_agent_rules.py`.
+
 ## 🚀 Replicar el Workspace en Otro Proyecto
 
 Para utilizar este entorno agéntico en un nuevo proyecto, debes copiar la siguiente estructura base en la raíz de tu proyecto:
@@ -96,6 +109,7 @@ Para utilizar este entorno agéntico en un nuevo proyecto, debes copiar la sigui
    - La carpeta `.agents/` completa (contiene `config.yaml`, `manifest.json`, los scripts y el directorio `skills/`).
 
 2. **Los archivos de reglas (System Prompts) para los agentes AI:**
+   - `.claude/skills/` (para **Claude Code** — activación nativa de skills)
    - `.clinerules` (para Cline/Roo-Code)
    - `.cursorrules` (para Cursor)
    - `AGENTS.md` (para Gemini Code Assist)
@@ -118,8 +132,11 @@ pre-commit install
 # Validar integridad de todas las skills
 python .agents/scripts/validate_skills.py
 
-# Generar reglas específicas para los diferentes agentes (Roo-Code, Claude, etc.)
+# Generar TODAS las reglas (incluye lanzadores nativos .claude/skills/)
 python .agents/scripts/generate_agent_rules.py
+
+# Solo regenerar los lanzadores nativos de Claude Code
+python .agents/scripts/generate_agent_rules.py --agent claude-skills
 
 # Ver catálogo de skills
 cat .agents/manifest.json

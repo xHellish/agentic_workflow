@@ -13,6 +13,9 @@ venv/
 .mypy_cache/
 .ruff_cache/
 
+# Claude Code local settings (machine-specific; the skills/ launchers ARE tracked)
+.claude/settings.local.json
+
 # OS / editor
 .DS_Store
 Thumbs.db
