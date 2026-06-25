@@ -13,7 +13,8 @@ Agentes soportados:
     - cline          → .clinerules
     - cursor         → .cursorrules (appends/overwrites agent section)
     - claude         → CLAUDE.md
-    - claude-skills  → .claude/skills/<name>/SKILL.md (native skill launchers)
+    - claude-skills  → .claude/skills/<name>/SKILL.md (native skill launchers, project)
+    - claude-skills-global → ~/.claude/skills/<name>/SKILL.md (GLOBAL launchers, opt-in)
     - gemini         → AGENTS.md
     - copilot        → .github/copilot-instructions.md
 """
@@ -329,15 +330,70 @@ Skill del **Agentic Workspace**. La definición completa vive en `{source}`
     print(f"[OK] Generated {count} native skill launcher(s) under .claude/skills/")
 
 
+def generate_claude_skills_global(manifest: dict) -> None:
+    """Install GLOBAL Claude Code skill launchers in ~/.claude/skills/<name>/SKILL.md.
+
+    Unlike generate_claude_skills (project-scoped, relative paths), these point at THIS
+    workspace by ABSOLUTE path, so the skills are available in every Claude Code session
+    regardless of the working directory. The workspace stays the single source of truth.
+    Opt-in only (excluded from the 'all' run, since it writes outside the repo).
+    """
+    skills = manifest.get("skills", [])
+    abs_root = WORKSPACE_ROOT.resolve().as_posix()
+    skills_root = Path.home() / ".claude" / "skills"
+    count = 0
+    for skill in skills:
+        name = skill.get("name", "")
+        if not name:
+            continue
+        description = skill.get("description", "").replace('"', "'")
+        source = f"{abs_root}/.agents/skills/{name}/SKILL.md"
+        skill_dir = f"{abs_root}/.agents/skills/{name}"
+
+        content = f"""---
+name: {name}
+description: "{description}"
+---
+
+# {name} (global)
+
+> Responde siempre en español (config del workspace maestro Agentic Workspace).
+
+Skill global del **Agentic Workspace**. La definición completa y sus references viven en el
+workspace maestro (fuente única de verdad):
+
+`{source}`
+
+**Al activar esta skill:**
+1. Lee ese archivo completo y adopta su rol, responsabilidades y formato de salida.
+2. Sigue su `## Reference Loading`, resolviendo `references/...` y `examples/...` **relativas a**
+   `{skill_dir}` (no al proyecto actual).
+3. Verifica sus `## Quality Gates` antes de entregar.
+
+> Si mueves o borras el workspace maestro, regenera con:
+> `python {abs_root}/.agents/scripts/generate_agent_rules.py --agent claude-skills-global`
+"""
+        output_path = skills_root / name / "SKILL.md"
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(content, encoding="utf-8")
+        count += 1
+
+    print(f"[OK] Installed {count} GLOBAL skill launcher(s) under {skills_root}")
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 GENERATORS = {
     "cline": generate_cline,
     "claude": generate_claude,
     "claude-skills": generate_claude_skills,
+    "claude-skills-global": generate_claude_skills_global,
     "gemini": generate_agents_md,
     "copilot": generate_copilot,
 }
+
+# Targets excluded from the default 'all' run (they write outside the repo; opt-in only).
+ALL_EXCLUDE = {"claude-skills-global"}
 
 
 def main() -> int:
@@ -358,6 +414,8 @@ def main() -> int:
         GENERATORS[args.agent](manifest)
     else:
         for name, gen in GENERATORS.items():
+            if name in ALL_EXCLUDE:
+                continue
             gen(manifest)
 
     print("\n[OK] Agent rule files generated successfully.")
