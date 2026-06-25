@@ -31,11 +31,11 @@ This workspace uses a **skill-based agent architecture**. Before responding to a
 | `test-strategist` | "escribir tests", "estrategia de testing", "cobertura" (+4 more) | Define estrategia de testing, detecta anti-patrones y guía l... |
 | `security-auditor` | "auditar seguridad", "vulnerabilidades", "OWASP" (+4 more) | Audita seguridad del código. Revisa OWASP Top 10, manejo de ... |
 | `docs-generator` | "generar documentación", "documentar", "API docs" (+4 more) | Genera documentación técnica: API docs, runbooks, guías de u... |
-| `devops-engineer` | "devops engineer" | Diseña pipelines CI/CD, infraestructura como código (IaC), c... |
-| `git-workflow` | "git workflow" | Define estrategias de branching, conventional commits, PR te... |
-| `api-designer` | "api designer" | Diseña contratos de API (OpenAPI, GraphQL schemas), estrateg... |
-| `performance-engineer` | "performance engineer" | Profiling, load testing, benchmarking, caching, APM.... |
-| `database-designer` | "database designer" | ER diagrams, migration strategies, query optimization.... |
+| `devops-engineer` | "crear pipeline", "configurar ci/cd", "dockerizar aplicación" (+5 more) | Diseña pipelines CI/CD, infraestructura como código (IaC), c... |
+| `git-workflow` | "git workflow", "estrategia de git", "branching strategy" (+5 more) | Define estrategias de branching, conventional commits, PR te... |
+| `api-designer` | "api designer", "openapi", "swagger" (+5 more) | Diseña contratos de API (OpenAPI, GraphQL schemas), estrateg... |
+| `performance-engineer` | "performance engineer", "slow", "bottleneck" (+4 more) | Profiling, load testing, benchmarking, caching, APM.... |
+| `database-designer` | "database designer", "diseñar base de datos", "diagrama ER" (+3 more) | ER diagrams, migration strategies, query optimization.... |
 
 ## Multi-Skill Pipelines
 
@@ -47,6 +47,21 @@ This workspace uses a **skill-based agent architecture**. Before responding to a
   - Steps: `structure-analyzer` → `security-auditor` → `test-strategist` → `code-improver` → `docs-generator`
 - **quick-review**: Fast review of a single file or small module
   - Steps: `code-improver` → `security-auditor`
+
+## Project Conventions
+
+> Source of truth: `.agents/config.yaml` -> `conventions`. Apply these ALWAYS, not only when a skill activates.
+
+**Commits** (every commit you write):
+- Conventional Commits: prefijo `type:` + título en `es` que resuma el avance.
+- Cuerpo: cambios en lista con guiones `-`, cada punto conciso, en español.
+- Sin emojis.
+- Sin punto final en el título.
+- Título <= 72 caracteres.
+- **NO** añadir `Co-Authored-By: Claude` salvo petición explícita del usuario.
+
+**Documentos formales (.docx / Word):**
+- Al generar un documento Word, sigue **`.agents/shared/document-style.md`** (Times New Roman 12/14, todo en negro, tablas "Tabla Normal 1", filas 0.7cm, autoajustar a la ventana).
 
 ## Language Rule
 

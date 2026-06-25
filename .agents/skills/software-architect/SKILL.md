@@ -159,5 +159,7 @@ Always structure responses as:
 - When in doubt, start simple and plan for evolution
 
 ## Quality Gates
-- [ ] Output is executable or syntactically valid.
-- [ ] Technical justification is provided.
+- [ ] Cada decisión arquitectónica relevante queda registrada como ADR (contexto, decisión, consecuencias).
+- [ ] Los diagramas C4 declaran su nivel (Contexto/Contenedor/Componente) y son coherentes entre sí.
+- [ ] Se nombran al menos 2 alternativas descartadas con su trade-off.
+- [ ] Los requisitos no funcionales (escalabilidad, seguridad, coste) se abordan explícitamente.

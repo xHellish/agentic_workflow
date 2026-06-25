@@ -19,11 +19,11 @@ This workspace uses a skill-based agent architecture. When assisting with tasks:
 | `test-strategist` | "escribir tests", "estrategia de testing", "cobertura" (+4 more) | Define estrategia de testing, detecta anti-patrones y guía l... |
 | `security-auditor` | "auditar seguridad", "vulnerabilidades", "OWASP" (+4 more) | Audita seguridad del código. Revisa OWASP Top 10, manejo de ... |
 | `docs-generator` | "generar documentación", "documentar", "API docs" (+4 more) | Genera documentación técnica: API docs, runbooks, guías de u... |
-| `devops-engineer` | "devops engineer" | Diseña pipelines CI/CD, infraestructura como código (IaC), c... |
-| `git-workflow` | "git workflow" | Define estrategias de branching, conventional commits, PR te... |
-| `api-designer` | "api designer" | Diseña contratos de API (OpenAPI, GraphQL schemas), estrateg... |
-| `performance-engineer` | "performance engineer" | Profiling, load testing, benchmarking, caching, APM.... |
-| `database-designer` | "database designer" | ER diagrams, migration strategies, query optimization.... |
+| `devops-engineer` | "crear pipeline", "configurar ci/cd", "dockerizar aplicación" (+5 more) | Diseña pipelines CI/CD, infraestructura como código (IaC), c... |
+| `git-workflow` | "git workflow", "estrategia de git", "branching strategy" (+5 more) | Define estrategias de branching, conventional commits, PR te... |
+| `api-designer` | "api designer", "openapi", "swagger" (+5 more) | Diseña contratos de API (OpenAPI, GraphQL schemas), estrateg... |
+| `performance-engineer` | "performance engineer", "slow", "bottleneck" (+4 more) | Profiling, load testing, benchmarking, caching, APM.... |
+| `database-designer` | "database designer", "diseñar base de datos", "diagrama ER" (+3 more) | ER diagrams, migration strategies, query optimization.... |
 
 ## Multi-Skill Pipelines
 

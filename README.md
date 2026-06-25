@@ -101,26 +101,25 @@ Para tareas complejas, las skills pueden encadenarse siguiendo los flujos defini
 Así tienes activación nativa en Claude Code **sin perder** portabilidad multi-agente. Tras
 editar cualquier skill o el `manifest.json`, **regenera** con `generate_agent_rules.py`.
 
-## 🚀 Replicar el Workspace en Otro Proyecto
+## 🚀 Usar el Workspace en Cualquier Proyecto Nuevo
 
-Para utilizar este entorno agéntico en un nuevo proyecto, debes copiar la siguiente estructura base en la raíz de tu proyecto:
+El repo es autosuficiente: clónalo, desvincúlalo de este historial y empieza tu
+proyecto sobre la misma base agéntica.
 
-1. **El directorio core de skills y configuración:**
-   - La carpeta `.agents/` completa (contiene `config.yaml`, `manifest.json`, los scripts y el directorio `skills/`).
+```bash
+git clone <url-o-ruta-de-este-repo> mi-proyecto
+cd mi-proyecto
+rm -rf .git        # PowerShell: Remove-Item -Recurse -Force .git
+git init           # historial nuevo y limpio
+```
 
-2. **Los archivos de reglas (System Prompts) para los agentes AI:**
-   - `.claude/skills/` (para **Claude Code** — activación nativa de skills)
-   - `.clinerules` (para Cline/Roo-Code)
-   - `.cursorrules` (para Cursor)
-   - `AGENTS.md` (para Gemini Code Assist)
-   - `CLAUDE.md` (para Claude)
+Luego **reinicia Claude Code** en `mi-proyecto` para que cargue los lanzadores de
+`.claude/skills/` y tengas las 12 skills activas.
 
-3. **(Opcional pero recomendado)** Archivos de configuración y documentación:
-   - `requirements.txt` (Para ejecutar `validate_skills.py` y `generate_agent_rules.py`)
-   - `.pre-commit-config.yaml`
-   - `Consideraciones.md`
-
-Para integrarlo, copia estos archivos en la raíz del nuevo proyecto y asegúrate de reiniciar tu agente (Cursor, Cline, Roo, Claude, etc) para que lea las nuevas reglas.
+> **Solo Claude Code:** si no usas otros agentes, puedes borrar `.clinerules`,
+> `.cursorrules`, `AGENTS.md` y `.github/copilot-instructions.md`. La fuente de verdad
+> (`.agents/`) se mantiene y esos archivos se regeneran cuando quieras con
+> `generate_agent_rules.py`.
 
 ## 🔧 Mantenimiento
 

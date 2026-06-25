@@ -68,6 +68,60 @@ def build_pipelines_section(pipelines: dict) -> str:
         lines.append(f"  - Steps: {steps}")
     return "\n".join(lines)
 
+
+def load_config() -> dict:
+    """Load .agents/config.yaml (returns {} if missing or unparseable)."""
+    config_path = AGENTS_DIR / "config.yaml"
+    if not config_path.exists():
+        return {}
+    try:
+        import yaml
+        return yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return {}
+
+
+def build_conventions_section(config: dict) -> str:
+    """Build the '## Project Conventions' section from config.yaml -> conventions.
+
+    These rules must apply ALWAYS (e.g. every commit the agent writes), not only when a
+    skill activates -- so they are surfaced directly in CLAUDE.md / AGENTS.md.
+    """
+    conv = (config or {}).get("conventions", {})
+    if not conv:
+        return ""
+    commits = conv.get("commits", {})
+    docfmt = conv.get("document_format", {})
+    out = ["", "## Project Conventions", ""]
+    out.append(
+        "> Source of truth: `.agents/config.yaml` -> `conventions`. "
+        "Apply these ALWAYS, not only when a skill activates."
+    )
+    if commits:
+        lang = commits.get("language", "es")
+        out.append("")
+        out.append("**Commits** (every commit you write):")
+        out.append(f"- Conventional Commits: prefijo `type:` + título en `{lang}` que resuma el avance.")
+        out.append("- Cuerpo: cambios en lista con guiones `-`, cada punto conciso, en español.")
+        if not commits.get("emojis", False):
+            out.append("- Sin emojis.")
+        if not commits.get("trailing_period", True):
+            out.append("- Sin punto final en el título.")
+        if commits.get("max_subject_length"):
+            out.append(f"- Título <= {commits['max_subject_length']} caracteres.")
+        if commits.get("coauthor") is False:
+            out.append("- **NO** añadir `Co-Authored-By: Claude` salvo petición explícita del usuario.")
+    if docfmt:
+        spec = docfmt.get("spec", ".agents/shared/document-style.md")
+        out.append("")
+        out.append("**Documentos formales (.docx / Word):**")
+        out.append(
+            f"- Al generar un documento Word, sigue **`{spec}`** "
+            "(Times New Roman 12/14, todo en negro, tablas \"Tabla Normal 1\", "
+            "filas 0.7cm, autoajustar a la ventana)."
+        )
+    return "\n".join(out)
+
 # ── Generators ────────────────────────────────────────────────────────────────
 
 def generate_cline(manifest: dict) -> None:
@@ -120,6 +174,7 @@ This workspace uses a **skill-based agent architecture**. Before responding to a
 
 {skill_table}
 {pipelines_section}
+{build_conventions_section(load_config())}
 
 ## Language Rule
 
@@ -171,6 +226,7 @@ Read `.agents/config.yaml` for:
 
 {skill_table}
 {pipelines_section}
+{build_conventions_section(load_config())}
 
 ## Response Language
 

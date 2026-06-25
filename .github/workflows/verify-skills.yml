@@ -2,9 +2,10 @@ name: Verify Skills
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,10 +19,11 @@ jobs:
       with:
         python-version: '3.x'
 
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
     - name: Run Pytest
-      run: |
-        pip install pytest
-        pytest .agents/tests/
+      run: pytest .agents/tests/
 
     - name: Validate Skills
       run: |

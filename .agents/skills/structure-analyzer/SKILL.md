@@ -176,5 +176,7 @@ Always structure analysis reports as:
 - Don't recommend changes that would require massive rewrites unless critical
 
 ## Quality Gates
-- [ ] Output is executable or syntactically valid.
-- [ ] Technical justification is provided.
+- [ ] Cada dimensión del scorecard tiene veredicto 🟢/🟡/🔴 con justificación objetiva.
+- [ ] El mapa de dependencias señala ciclos y acoplamientos problemáticos (o confirma su ausencia).
+- [ ] Los hallazgos se priorizan por impacto, no como lista plana.
+- [ ] Las recomendaciones son accionables y referencian rutas/archivos concretos.

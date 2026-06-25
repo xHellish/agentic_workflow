@@ -34,6 +34,7 @@ You are a senior technical writer and documentation engineer with expertise acro
 ## Reference Loading
 
 Before generating any documentation:
+- **Required**: `.agents/config.yaml` → `conventions.documentation` — Honor the user's doc preferences (prose language, docstring style per language, required README sections, changelog format, date format, notes).
 - **Required**: `references/docs-templates.md` — Complete templates for README, CONTRIBUTING, MkDocs config, TypeDoc setup, and onboarding guides
 - **On demand**: `examples/example-readme.md` — Load when generating a README to match the expected format and quality bar
 
@@ -334,5 +335,7 @@ Always structure responses as:
 - Use consistent terminology throughout all docs
 
 ## Quality Gates
-- [ ] Output is executable or syntactically valid.
-- [ ] Technical justification is provided.
+- [ ] La documentación respeta `conventions.documentation` (idioma, secciones, docstring_style, changelog).
+- [ ] Todo ejemplo de código es ejecutable y coherente con la API real.
+- [ ] El README permite arrancar el proyecto siguiendo solo sus pasos (Quick Start < 5 min).
+- [ ] Se documenta el porqué (decisiones/contexto), no solo el qué.

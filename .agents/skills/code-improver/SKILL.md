@@ -191,5 +191,7 @@ Always structure reviews as:
 - Consider backward compatibility when proposing changes
 
 ## Quality Gates
-- [ ] Output is executable or syntactically valid.
-- [ ] Technical justification is provided.
+- [ ] Cada propuesta incluye código antes/después y el principio que aplica (SOLID/DRY/KISS).
+- [ ] No se altera el comportamiento observable salvo que se indique explícitamente.
+- [ ] Los code smells se reportan con severidad y se ordenan por impacto.
+- [ ] El refactor es verificable con los tests existentes o se proponen los nuevos necesarios.

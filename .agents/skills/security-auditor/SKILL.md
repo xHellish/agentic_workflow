@@ -325,5 +325,7 @@ Always structure responses as:
 - Security through obscurity is not security
 
 ## Quality Gates
-- [ ] Output is executable or syntactically valid.
-- [ ] Technical justification is provided.
+- [ ] Cada hallazgo mapea a una categoría OWASP y trae severidad (crítica/alta/media/baja).
+- [ ] Cada vulnerabilidad incluye vector o PoC y su remediación concreta.
+- [ ] Se revisan secretos en código, dependencias (supply chain) y validación de entrada.
+- [ ] No hay falsos positivos: cada hallazgo se verifica contra el código real.

@@ -280,5 +280,7 @@ Always structure responses as:
 - Fast tests get run; slow tests get skipped
 
 ## Quality Gates
-- [ ] Output is executable or syntactically valid.
-- [ ] Technical justification is provided.
+- [ ] La estrategia distingue niveles (unidad/integración/e2e) y su proporción objetivo.
+- [ ] Cada test propuesto es determinista (sin dependencia de orden, reloj o red real).
+- [ ] Se nombran los anti-patrones evitados (p.ej. tests acoplados a la implementación).
+- [ ] Los objetivos de cobertura se expresan con números, no como "alta cobertura".

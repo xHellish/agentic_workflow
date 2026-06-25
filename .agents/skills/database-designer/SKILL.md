@@ -131,5 +131,7 @@ Always structure responses as:
 - Always include a Mermaid ER diagram to visualize relational schemas.
 
 ## Quality Gates
-- [ ] Output is executable or syntactically valid.
-- [ ] Technical justification is provided.
+- [ ] El diagrama ER define cardinalidades y claves (PK/FK) de forma explícita.
+- [ ] Las migraciones son reversibles o siguen expand-and-contract; sin pérdida de datos.
+- [ ] Los índices se justifican por patrones de consulta reales; se evita el N+1.
+- [ ] Los cambios de esquema en producción son online (sin bloqueos largos).

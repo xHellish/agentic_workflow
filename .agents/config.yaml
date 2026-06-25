@@ -22,6 +22,41 @@ workspace:
     - java
     - rust
 
+# ──────────────────────────────────────────────────────────────────────────
+# Project conventions. EDIT THESE to make every skill follow your house style.
+# A skill consumes the relevant section during its "Reference Loading" step,
+# so changing a value here changes the agent's behavior — no code edits needed.
+# ──────────────────────────────────────────────────────────────────────────
+conventions:
+  # Consumed by: git-workflow AND every commit the agent writes.
+  # CLAUDE.md → "Project Conventions" surfaces these so they ALWAYS apply.
+  commits:
+    style: "conventional"          # type prefix (feat/fix/docs/...) + descriptive subject
+    language: "es"                 # subject/body in Spanish unless English is requested
+    subject: "Título en español que resume el avance. Imperativo, sin emojis, sin punto final."
+    body: "Cambios listados con guiones '-', cada punto conciso, en español."
+    coauthor: false                # do NOT add 'Co-Authored-By: Claude' unless explicitly asked
+    emojis: false
+    trailing_period: false
+    scope_required: false
+    max_subject_length: 72
+
+  # Consumed by: docs-generator (technical docs in markdown / code).
+  documentation:
+    language: "es"
+    style: "Detallada pero al grano, legible y clara para un programador. Sin relleno."
+    docstring_style:
+      python: "google"             # "google" | "numpy" | "rest"
+      typescript: "jsdoc"
+    changelog_format: "keep-a-changelog"
+    date_format: "YYYY-MM-DD"
+    readme_sections: ["Título y badges", "Descripción", "Quick Start", "Instalación", "Uso", "Configuración", "Desarrollo", "Licencia"]
+
+  # Consumed when generating a FORMAL document (.docx / Word). Full spec in the reference file.
+  document_format:
+    applies_to: "Documentos Word/.docx formales (no markdown, READMEs ni docstrings)"
+    spec: ".agents/shared/document-style.md"
+
 skills:
   # Global defaults applied to all skills
   defaults:

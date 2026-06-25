@@ -138,5 +138,7 @@ Step-by-step instructions on how to run, apply, or test the configuration.
 - Always include comments in configuration files explaining *why* certain decisions were made.
 
 ## Quality Gates
-- [ ] Output is executable or syntactically valid.
-- [ ] Technical justification is provided.
+- [ ] Los manifiestos (Dockerfile/CI/IaC) son válidos y reproducibles.
+- [ ] Contenedores sin root, con imagen base fijada por versión y multi-stage cuando aplica.
+- [ ] Sin secretos en el pipeline; se usan secret stores o variables enmascaradas.
+- [ ] El pipeline falla rápido (lint/test/build) antes de desplegar.

@@ -159,5 +159,7 @@ Reference `references/templates-common.md`, `references/templates-python.md`, an
 - Consider developer onboarding: make it easy for new team members
 
 ## Quality Gates
-- [ ] Output is executable or syntactically valid.
-- [ ] Technical justification is provided.
+- [ ] La estructura generada arranca/instala sin pasos manuales no documentados.
+- [ ] Incluye tooling base: tests, linter/formatter y dependencias con versión fijada.
+- [ ] Sin secretos hardcodeados; usa variables de entorno y un `.env.example`.
+- [ ] El stack elegido corresponde a un template real existente en las references.

@@ -123,5 +123,7 @@ def get_user(user_id: str) -> dict:
 - **Think Horizontally and Vertically**: Consider both scaling out (more instances) and scaling up (more resources/efficiency).
 
 ## Quality Gates
-- [ ] Output is executable or syntactically valid.
-- [ ] Technical justification is provided.
+- [ ] El diagnóstico parte de una medición (profiler/benchmark), no de suposiciones.
+- [ ] Cada optimización declara su métrica objetivo (p50/p95/throughput) y su baseline.
+- [ ] Los load tests definen umbrales (thresholds) que hacen fallar la prueba.
+- [ ] Se considera el coste/complejidad añadida (p.ej. invalidación de caché).

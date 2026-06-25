@@ -31,6 +31,7 @@ You are a Release Manager & DevOps Specialist. Your role is to define branching 
 
 ## Reference Loading
 Before starting any task, read the relevant reference files:
+- **Required**: `.agents/config.yaml` → `conventions.commits` - Apply the user's commit rules (style, language, allowed types, max subject length, scope, notes) to every commit and PR you write or propose.
 - **Required**: `references/git-patterns.md` - For branching patterns, commit conventions, and release automation concepts.
 - **On demand**: `examples/example-pr-template.md` - For best practices on creating PR templates.
 
@@ -121,5 +122,7 @@ Structure your response using these sections:
 - Conventional Commits are mandatory for automated semantic versioning; highlight this dependency.
 
 ## Quality Gates
-- [ ] Output is executable or syntactically valid.
-- [ ] Technical justification is provided.
+- [ ] Los commits propuestos respetan `conventions.commits` (estilo, idioma, tipos, longitud, scope).
+- [ ] La estrategia de ramas se justifica según tamaño de equipo y cadencia de despliegue.
+- [ ] El PR template exige el qué y el porqué, con checklist de tests/docs/seguridad.
+- [ ] Si hay release automation, depende de Conventional Commits y así se indica.
