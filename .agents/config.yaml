@@ -31,14 +31,13 @@ conventions:
   # Consumed by: git-workflow AND every commit the agent writes.
   # CLAUDE.md → "Project Conventions" surfaces these so they ALWAYS apply.
   commits:
-    style: "conventional"          # type prefix (feat/fix/docs/...) + descriptive subject
+    style: "descriptive"           # NO type prefix — never feat:/fix:/docs:/perf: etc.
     language: "es"                 # subject/body in Spanish unless English is requested
-    subject: "Título en español que resume el avance. Imperativo, sin emojis, sin punto final."
-    body: "Cambios listados con guiones '-', cada punto conciso, en español."
+    subject: "Título descriptivo en español que resume el avance (verbo + objeto), sin prefijo de tipo, sin punto final."
+    body: "SIEMPRE incluir los detalles como lista de guiones '-', cada punto conciso, en español."
     coauthor: false                # do NOT add 'Co-Authored-By: Claude' unless explicitly asked
     emojis: false
     trailing_period: false
-    scope_required: false
     max_subject_length: 72
 
   # Consumed by: docs-generator (technical docs in markdown / code).

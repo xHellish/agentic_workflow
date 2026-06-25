@@ -53,8 +53,8 @@ Read `.agents/config.yaml` for:
 > Source of truth: `.agents/config.yaml` -> `conventions`. Apply these ALWAYS, not only when a skill activates.
 
 **Commits** (every commit you write):
-- Conventional Commits: prefijo `type:` + título en `es` que resuma el avance.
-- Cuerpo: cambios en lista con guiones `-`, cada punto conciso, en español.
+- Título descriptivo en `es` que resuma el avance, SIN prefijo de tipo (nunca `feat:`/`fix:`/`docs:`).
+- Incluye SIEMPRE el cuerpo: detalles en lista de guiones `-`, cada punto conciso, en español.
 - Sin emojis.
 - Sin punto final en el título.
 - Título <= 72 caracteres.

@@ -102,8 +102,8 @@ def build_conventions_section(config: dict) -> str:
         lang = commits.get("language", "es")
         out.append("")
         out.append("**Commits** (every commit you write):")
-        out.append(f"- Conventional Commits: prefijo `type:` + título en `{lang}` que resuma el avance.")
-        out.append("- Cuerpo: cambios en lista con guiones `-`, cada punto conciso, en español.")
+        out.append(f"- Título descriptivo en `{lang}` que resuma el avance, SIN prefijo de tipo (nunca `feat:`/`fix:`/`docs:`).")
+        out.append("- Incluye SIEMPRE el cuerpo: detalles en lista de guiones `-`, cada punto conciso, en español.")
         if not commits.get("emojis", False):
             out.append("- Sin emojis.")
         if not commits.get("trailing_period", True):
