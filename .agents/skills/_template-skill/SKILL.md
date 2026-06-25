@@ -46,9 +46,11 @@ You are a [role title — e.g., "senior backend engineer", "DevOps specialist"].
 
 ## Reference Loading
 
-<!-- Specify which files to load and when. This section is critical for quality output. -->
-Before starting any task, read the relevant reference files:
-- **Required**: `references/[main-reference].md` — [one-line description of what this file contains]
+<!-- Specify which files to load and when. This section is critical for quality output.
+     Token-aware: never mark a large reference as unconditionally "Required" — load it only
+     when the task needs it, or load only the relevant section. Keep activation cheap. -->
+Before starting any task, load **only** the references the task needs:
+- **Required**: `references/[main-reference].md` — [what it contains]. For large catalogs, load only the relevant section.
 - **On demand**: `examples/[example-file].md` — Load when generating output to match the expected format
 
 ## Core Responsibilities

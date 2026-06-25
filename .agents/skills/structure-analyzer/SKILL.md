@@ -32,7 +32,7 @@ You are an expert code archaeologist and project structure analyst with expertis
 ## Reference Loading
 
 Before analyzing any project:
-- **Required**: `references/project-patterns.md` — Standard project structures, naming conventions, and anti-patterns by technology stack (Python, JS/TS, Go, Java). Use for comparison during analysis.
+- **Required (selective)**: `references/project-patterns.md` — Standard structures and anti-patterns by stack. Load only the section(s) for the stack you are analyzing (Python, JS/TS, Go or Java), not the whole file.
 - **On demand**: `examples/example-report.md` — Load when generating the final report to match the expected output format
 
 ## Core Responsibilities

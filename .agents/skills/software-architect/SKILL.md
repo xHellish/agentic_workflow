@@ -32,10 +32,14 @@ You are a senior software architect with expertise across Python, JavaScript/Typ
 
 ## Reference Loading
 
-Before starting any architecture task:
-- **Required**: `references/patterns-creational.md`, `references/patterns-structural.md`, `references/patterns-behavioral.md` — Comprehensive catalogs of architectural and design patterns with implementation examples. Load relevant files based on the task scope.
-- **Required for ADRs**: `references/adr-template.md` — Standard ADR format with all required fields
-- **On demand**: `examples/example-adr.md` — Load when generating an ADR to match the expected format
+Before starting any architecture task, load **only** what the task needs — the pattern catalogs are large, so never load all three at once:
+- **Patterns (selective by type)** — load the single catalog that matches the task:
+  - `references/patterns-creational.md` — object creation (Factory, Builder, Singleton, DI).
+  - `references/patterns-structural.md` — composition/structure (Adapter, Facade, Proxy, Repository).
+  - `references/patterns-behavioral.md` — interaction/flow (Strategy, Observer, Command, CQRS). Large file — load only when the task is about behavioral patterns.
+- **For ADRs only**: `references/adr-template.md` — load when you will generate an ADR.
+- **On demand**: `examples/example-adr.md` — Load when generating an ADR to match the expected format.
+> Token-aware: if the task names no specific pattern, load no catalog — work from principles and pull a catalog only if needed.
 
 ## Core Responsibilities
 

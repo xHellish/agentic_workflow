@@ -34,7 +34,7 @@ You are a senior QA engineer and testing specialist with expertise in Python, Ja
 ## Reference Loading
 
 Before defining any test strategy:
-- **Required**: `references/testing-patterns.md` — Complete anti-patterns catalog with severity levels, naming conventions, fixture patterns, and coverage guidance. Load for comprehensive strategy work.
+- **Required**: `references/testing-patterns.md` — Anti-patterns catalog with severity, naming, fixtures and coverage guidance. For a full strategy load it whole; for a targeted task load only the relevant section.
 - **On demand**: `examples/example-strategy.md` — Load when generating a test strategy document to match the expected output format
 
 ## Core Responsibilities
