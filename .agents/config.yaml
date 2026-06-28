@@ -1,63 +1,23 @@
-# Agentic Workspace Configuration
-# This file centralizes workspace behavior settings.
-# Skills inherit these defaults; override in project-specific forks.
+# Agentic Workspace — Configuración central
+# Stack principal: Python / Node.js, PostgreSQL, Docker.
 
 workspace:
   name: "Agentic Workspace"
-  version: "1.0.0"
-
-  # Language for agent responses (ISO 639-1 code)
-  # All skills respond in this language
-  response_language: "es"  # "es" = Spanish | "en" = English | "pt" = Portuguese
-
-  # Primary languages the agent has deep expertise in
-  primary_languages:
-    - python
-    - javascript
-    - typescript
-
-  # Secondary languages with structural/architectural support
-  secondary_languages:
-    - go
-    - java
-    - rust
+  version: "2.0.0"
+  response_language: "es"  # "es" | "en" | "pt"
 
 # ──────────────────────────────────────────────────────────────────────────
-# Project conventions. EDIT THESE to make every skill follow your house style.
-# A skill consumes the relevant section during its "Reference Loading" step,
-# so changing a value here changes the agent's behavior — no code edits needed.
+# Convenciones de commits.
+# generate_agent_rules.py lee esta sección y la vuelca en CLAUDE.md,
+# así que aplica a TODOS los commits que escribe Claude, siempre.
 # ──────────────────────────────────────────────────────────────────────────
 conventions:
-  # Consumed by: git-workflow AND every commit the agent writes.
-  # CLAUDE.md → "Project Conventions" surfaces these so they ALWAYS apply.
   commits:
-    style: "descriptive"           # NO type prefix — never feat:/fix:/docs:/perf: etc.
-    language: "es"                 # subject/body in Spanish unless English is requested
-    subject: "Título descriptivo en español que resume el avance (verbo + objeto), sin prefijo de tipo, sin punto final."
+    style: "descriptive"       # Sin prefijo de tipo (nunca feat:/fix:/docs:)
+    language: "es"
+    subject: "Título descriptivo en español que resume el avance, sin prefijo de tipo, sin punto final."
     body: "SIEMPRE incluir los detalles como lista de guiones '-', cada punto conciso, en español."
-    coauthor: false                # do NOT add 'Co-Authored-By: Claude' unless explicitly asked
+    coauthor: false
     emojis: false
     trailing_period: false
     max_subject_length: 72
-
-  # Consumed by: docs-generator (technical docs in markdown / code).
-  documentation:
-    language: "es"
-    style: "Detallada pero al grano, legible y clara para un programador. Sin relleno."
-    docstring_style:
-      python: "google"             # "google" | "numpy" | "rest"
-      typescript: "jsdoc"
-    changelog_format: "keep-a-changelog"
-    date_format: "YYYY-MM-DD"
-    readme_sections: ["Título y badges", "Descripción", "Quick Start", "Instalación", "Uso", "Configuración", "Desarrollo", "Licencia"]
-
-
-skills:
-  defaults:
-    include_code_examples: true   # Siempre incluir ejemplos antes/después en las sugerencias
-
-  # Overrides por skill (descomentar para activar)
-  # code-quality:
-  #   scoped_review: true   # true = revisar solo los archivos mencionados
-
-pipelines: {}  # Sin pipelines por ahora; se agregarán cuando haya más skills
