@@ -91,7 +91,6 @@ def build_conventions_section(config: dict) -> str:
     if not conv:
         return ""
     commits = conv.get("commits", {})
-    docfmt = conv.get("document_format", {})
     out = ["", "## Convenciones del Proyecto", ""]
     out.append(
         "> Fuente de verdad: `.agents/config.yaml` → `conventions`. "
@@ -111,15 +110,6 @@ def build_conventions_section(config: dict) -> str:
             out.append(f"- Título <= {commits['max_subject_length']} caracteres.")
         if commits.get("coauthor") is False:
             out.append("- **NO** añadir `Co-Authored-By: Claude` salvo petición explícita del usuario.")
-    if docfmt:
-        spec = docfmt.get("spec", ".agents/shared/document-style.md")
-        out.append("")
-        out.append("**Documentos formales (.docx / Word):**")
-        out.append(
-            f"- Al generar un documento Word, sigue **`{spec}`** "
-            "(Times New Roman 12/14, todo en negro, tablas \"Tabla Normal 1\", "
-            "filas 0.7cm, autoajustar a la ventana)."
-        )
     return "\n".join(out)
 
 # ── Generators ────────────────────────────────────────────────────────────────

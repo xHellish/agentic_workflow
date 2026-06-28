@@ -51,10 +51,6 @@ conventions:
     date_format: "YYYY-MM-DD"
     readme_sections: ["Título y badges", "Descripción", "Quick Start", "Instalación", "Uso", "Configuración", "Desarrollo", "Licencia"]
 
-  # Consumed when generating a FORMAL document (.docx / Word). Full spec in the reference file.
-  document_format:
-    applies_to: "Documentos Word/.docx formales (no markdown, READMEs ni docstrings)"
-    spec: ".agents/shared/document-style.md"
 
 skills:
   defaults:

@@ -41,9 +41,6 @@ Este workspace usa una arquitectura basada en **skills**. Antes de responder a c
 - Título <= 72 caracteres.
 - **NO** añadir `Co-Authored-By: Claude` salvo petición explícita del usuario.
 
-**Documentos formales (.docx / Word):**
-- Al generar un documento Word, sigue **`.agents/shared/document-style.md`** (Times New Roman 12/14, todo en negro, tablas "Tabla Normal 1", filas 0.7cm, autoajustar a la ventana).
-
 ## Idioma
 
 Responde siempre en el idioma definido en `.agents/config.yaml` → `response_language` (por defecto: español).
