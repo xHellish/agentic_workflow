@@ -33,6 +33,21 @@ Este workspace usa una arquitectura basada en **skills**. Antes de responder a c
 
 > Fuente de verdad: `.agents/config.yaml` → `conventions`. Aplicar SIEMPRE, no solo cuando se activa una skill.
 
+**Código** (todo código que escribas):
+- Código en inglés; comentarios en español.
+- Sin docstrings de triple comilla — solo `#` para comentarios.
+- Solo guión simple `-` en comentarios; nunca guión largo `—`.
+- Nombres en `snake_case`, descriptivos y en inglés.
+- Errores siempre explícitos con mensaje específico; sin swallowing de excepciones.
+- Estructura pragmática: sin patrones forzados si no hacen falta.
+- Dentro de las funciones, comentarios `#` que guíen el procedimiento paso a paso.
+- Separación de secciones en archivos:
+  ```
+  # =============================================
+  # Nombre de la sección
+  # ---------------------------------------------
+  ```
+
 **Commits** (todo commit que escribas):
 - Título descriptivo en `es` que resuma el avance, SIN prefijo de tipo (nunca `feat:`/`fix:`/`docs:`).
 - Incluye SIEMPRE el cuerpo: detalles en lista de guiones `-`, cada punto conciso, en español.

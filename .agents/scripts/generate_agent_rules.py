@@ -86,12 +86,29 @@ def build_conventions_section(config: dict) -> str:
     conv = (config or {}).get("conventions", {})
     if not conv:
         return ""
+    code = conv.get("code", {})
     commits = conv.get("commits", {})
     out = ["", "## Convenciones del Proyecto", ""]
     out.append(
         "> Fuente de verdad: `.agents/config.yaml` → `conventions`. "
         "Aplicar SIEMPRE, no solo cuando se activa una skill."
     )
+    if code:
+        out.append("")
+        out.append("**Código** (todo código que escribas):")
+        out.append(f"- Código en inglés; comentarios en español.")
+        out.append("- Sin docstrings de triple comilla — solo `#` para comentarios.")
+        out.append("- Solo guión simple `-` en comentarios; nunca guión largo `—`.")
+        out.append("- Nombres en `snake_case`, descriptivos y en inglés.")
+        out.append("- Errores siempre explícitos con mensaje específico; sin swallowing de excepciones.")
+        out.append("- Estructura pragmática: sin patrones forzados si no hacen falta.")
+        out.append("- Dentro de las funciones, comentarios `#` que guíen el procedimiento paso a paso.")
+        out.append("- Separación de secciones en archivos:")
+        out.append("  ```")
+        out.append("  # =============================================")
+        out.append("  # Nombre de la sección")
+        out.append("  # ---------------------------------------------")
+        out.append("  ```")
     if commits:
         lang = commits.get("language", "es")
         out.append("")
