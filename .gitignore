@@ -1,20 +1,16 @@
-# Ignorar archivos de configuración de entorno
+# Notas locales (no versionar)
 mejoras_actuales.md
 
 # Python
 __pycache__/
 *.py[cod]
-*.egg-info/
 .venv/
 venv/
 
-# Tooling caches
+# Caches de herramientas
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-
-# Claude Code local settings (machine-specific; the skills/ launchers ARE tracked)
-.claude/settings.local.json
 
 # OS / editor
 .DS_Store

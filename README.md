@@ -45,6 +45,9 @@ Reinicia Claude Code en el directorio del proyecto para que cargue el `CLAUDE.md
 ## Mantenimiento
 
 ```bash
+# Instalar dependencias (necesario para los comandos de abajo)
+pip install -r requirements.txt
+
 # Después de editar una skill o el manifest.json
 python .agents/scripts/generate_agent_rules.py
 
