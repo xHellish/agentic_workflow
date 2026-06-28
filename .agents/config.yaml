@@ -57,65 +57,11 @@ conventions:
     spec: ".agents/shared/document-style.md"
 
 skills:
-  # Global defaults applied to all skills
   defaults:
-    # Minimum severity to include in reports (critical | high | medium | low)
-    min_severity_to_report: "low"
-    # Include before/after code examples in proposals
-    include_code_examples: true
-    # Limit review scope to files explicitly mentioned (false = analyze full codebase)
-    scoped_review: false
+    include_code_examples: true   # Siempre incluir ejemplos antes/después en las sugerencias
 
-  # Per-skill overrides (uncomment and customize as needed)
-  # code-improver:
-  #   max_files_per_review: 10
-  #   focus: ["security", "performance"]  # Focus only on these categories
-  #
-  # security-auditor:
-  #   severity_threshold: "medium"  # Only report medium and above
-  #   include_supply_chain: true
-  #
-  # project-scaffolder:
-  #   default_stack: "python-api"    # Pre-select a template
-  #   include_docker: true
-  #   include_ci: true
-  #
-  # test-strategist:
-  #   coverage_target:
-  #     unit: 80
-  #     branch: 75
-  #   preferred_framework: "vitest"  # "vitest" | "jest" | "pytest"
+  # Overrides por skill (descomentar para activar)
+  # code-quality:
+  #   scoped_review: true   # true = revisar solo los archivos mencionados
 
-pipelines:
-  # Secuencias ordenadas de skills para flujos comunes.
-  # Cada skill ejecuta en orden; los hallazgos de una informan a la siguiente.
-  new-project:
-    description: "Pipeline completo para arrancar un nuevo proyecto"
-    steps:
-      - software-architect  # Diseñar la arquitectura primero
-      - project-scaffolder  # Generar estructura basada en el diseño
-      - test-strategist     # Definir estrategia de testing
-      - security-auditor    # Asegurar tooling de seguridad desde el inicio
-      - docs-generator      # Generar README y docs iniciales
-
-  code-review:
-    description: "Revisión integral de calidad y seguridad del código"
-    steps:
-      - structure-analyzer  # Mapear el codebase primero
-      - code-improver       # Identificar problemas de calidad
-      - security-auditor    # Identificar problemas de seguridad
-
-  audit-full:
-    description: "Auditoría completa de salud del proyecto"
-    steps:
-      - structure-analyzer  # Arquitectura y salud de la estructura
-      - security-auditor    # Postura de seguridad
-      - test-strategist     # Cobertura y calidad de tests
-      - code-improver       # Calidad del código
-      - docs-generator      # Brechas de documentación
-
-  quick-review:
-    description: "Revisión rápida de un archivo o módulo pequeño"
-    steps:
-      - code-improver
-      - security-auditor
+pipelines: {}  # Sin pipelines por ahora; se agregarán cuando haya más skills

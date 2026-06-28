@@ -24,29 +24,10 @@ Este workspace usa una arquitectura basada en **skills**. Antes de responder a c
 
 | Skill | Triggers Principales | Descripción |
 |-------|---------------------|------------|
-| `software-architect` | "diseñar sistema", "arquitectura", "diagrama" (+4 more) | Diseña arquitectura de software. Genera diagramas C4, contra... |
-| `structure-analyzer` | "analizar estructura", "mapa de dependencias", "analiza este proyecto" (+3 more) | Analiza estructura de proyectos existentes. Mapea dependenci... |
-| `code-improver` | "mejorar código", "refactorizar", "code review" (+4 more) | Detecta code smells y propone refactoring. Aplica principios... |
-| `project-scaffolder` | "crear proyecto", "inicializar", "setup" (+4 more) | Genera scaffolding de proyectos con estructura, configuració... |
-| `test-strategist` | "escribir tests", "estrategia de testing", "cobertura" (+4 more) | Define estrategia de testing, detecta anti-patrones y guía l... |
-| `security-auditor` | "auditar seguridad", "vulnerabilidades", "OWASP" (+4 more) | Audita seguridad del código. Revisa OWASP Top 10, manejo de ... |
-| `docs-generator` | "generar documentación", "documentar", "API docs" (+4 more) | Genera documentación técnica: API docs, runbooks, guías de u... |
-| `devops-engineer` | "crear pipeline", "configurar ci/cd", "dockerizar aplicación" (+5 more) | Diseña pipelines CI/CD, infraestructura como código (IaC), c... |
-| `git-workflow` | "git workflow", "estrategia de git", "branching strategy" (+5 more) | Define estrategias de branching, conventional commits, PR te... |
-| `api-designer` | "api designer", "openapi", "swagger" (+5 more) | Diseña contratos de API (OpenAPI, GraphQL schemas), estrateg... |
-| `performance-engineer` | "performance engineer", "slow", "bottleneck" (+4 more) | Profiling, load testing, benchmarking, caching, APM.... |
-| `database-designer` | "database designer", "diseñar base de datos", "diagrama ER" (+3 more) | ER diagrams, migration strategies, query optimization.... |
+| `docs` | "documentar", "genera el README", "actualiza docs" (+7 more) | Genera y actualiza README.md conciso y Documentation.md técn... |
+| `diagrams` | "diagrama", "diagrama C4", "diagrama de la base de datos" (+7 more) | Genera diagramas Mermaid (C4, secuencia, flujo) y DBML para ... |
+| `code-quality` | "revisa este código", "qué mejorarías", "code review" (+5 more) | Revisa código en busca de problemas de lógica y claridad. Pr... |
 
-## Pipelines Multi-Skill
-
-- **new-project**: Full pipeline for bootstrapping a new project
-  - Pasos: `software-architect` → `project-scaffolder` → `test-strategist` → `security-auditor` → `docs-generator`
-- **code-review**: Comprehensive code quality and security review
-  - Pasos: `structure-analyzer` → `code-improver` → `security-auditor`
-- **audit-full**: Full project health audit
-  - Pasos: `structure-analyzer` → `security-auditor` → `test-strategist` → `code-improver` → `docs-generator`
-- **quick-review**: Fast review of a single file or small module
-  - Pasos: `code-improver` → `security-auditor`
 
 ## Convenciones del Proyecto
 

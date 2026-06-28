@@ -4,29 +4,20 @@
     "name": "xHellish"
   },
   "metadata": {
-    "description": "Skills de desarrollo del Agentic Workspace (arquitectura, seguridad, testing, devops y más).",
-    "version": "1.0.0"
+    "description": "Skills del Agentic Workspace: documentación, diagramas y revisión de código.",
+    "version": "2.0.0"
   },
   "plugins": [
     {
       "name": "agentic-skills",
       "source": "./",
-      "description": "12 skills de desarrollo: arquitectura, análisis de estructura, refactor, scaffolding, testing, seguridad, documentación, devops, git, API, performance y base de datos.",
-      "version": "1.0.0",
+      "description": "3 skills esenciales: documentación (README + Documentation.md), diagramas (Mermaid C4 + DBML) y revisión de calidad de código.",
+      "version": "2.0.0",
       "strict": false,
       "skills": [
-        "./.agents/skills/software-architect",
-        "./.agents/skills/structure-analyzer",
-        "./.agents/skills/code-improver",
-        "./.agents/skills/project-scaffolder",
-        "./.agents/skills/test-strategist",
-        "./.agents/skills/security-auditor",
-        "./.agents/skills/docs-generator",
-        "./.agents/skills/devops-engineer",
-        "./.agents/skills/git-workflow",
-        "./.agents/skills/api-designer",
-        "./.agents/skills/performance-engineer",
-        "./.agents/skills/database-designer"
+        "./.agents/skills/docs",
+        "./.agents/skills/diagrams",
+        "./.agents/skills/code-quality"
       ]
     }
   ]
