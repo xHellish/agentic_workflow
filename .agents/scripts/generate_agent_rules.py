@@ -2,16 +2,12 @@
 """
 generate_agent_rules.py — Genera las instrucciones de Claude Code desde manifest.json.
 
-Por defecto solo produce archivos Claude Code. Los demás agentes son opt-in (--agent).
-
 Uso:
-    python .agents/scripts/generate_agent_rules.py              # genera claude + claude-skills
+    python .agents/scripts/generate_agent_rules.py         # genera CLAUDE.md
     python .agents/scripts/generate_agent_rules.py --agent claude
-    python .agents/scripts/generate_agent_rules.py --agent cline     # opt-in: genera .clinerules
 
 Targets disponibles:
     - claude              → CLAUDE.md  (default)
-    - claude-skills       → .claude/skills/<name>/SKILL.md  (default, lanzadores de proyecto)
     - claude-skills-global → ~/.claude/skills/<name>/SKILL.md  (opt-in, escribe fuera del repo)
     - cline               → .clinerules  (opt-in)
     - gemini              → AGENTS.md  (opt-in)
@@ -371,16 +367,14 @@ workspace maestro (fuente única de verdad):
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 GENERATORS = {
-    "cline": generate_cline,
     "claude": generate_claude,
-    "claude-skills": generate_claude_skills,
     "claude-skills-global": generate_claude_skills_global,
+    "cline": generate_cline,
     "gemini": generate_agents_md,
     "copilot": generate_copilot,
 }
 
-# Targets excluidos del run por defecto. claude-skills-global escribe fuera del repo;
-# cline/gemini/copilot son para otros agentes (este workspace es Claude Code only).
+# Targets excluidos del run por defecto (opt-in solo).
 ALL_EXCLUDE = {"claude-skills-global", "cline", "gemini", "copilot"}
 
 
