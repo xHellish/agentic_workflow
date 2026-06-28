@@ -87,35 +87,35 @@ skills:
   #   preferred_framework: "vitest"  # "vitest" | "jest" | "pytest"
 
 pipelines:
-  # Ordered sequences of skills for common workflows
-  # Skills execute in order; findings from each inform the next
+  # Secuencias ordenadas de skills para flujos comunes.
+  # Cada skill ejecuta en orden; los hallazgos de una informan a la siguiente.
   new-project:
-    description: "Full pipeline for bootstrapping a new project"
+    description: "Pipeline completo para arrancar un nuevo proyecto"
     steps:
-      - software-architect  # Design architecture first
-      - project-scaffolder  # Generate structure based on design
-      - test-strategist     # Define testing strategy
-      - security-auditor    # Ensure security tooling is in place
-      - docs-generator      # Generate README and initial docs
+      - software-architect  # Diseñar la arquitectura primero
+      - project-scaffolder  # Generar estructura basada en el diseño
+      - test-strategist     # Definir estrategia de testing
+      - security-auditor    # Asegurar tooling de seguridad desde el inicio
+      - docs-generator      # Generar README y docs iniciales
 
   code-review:
-    description: "Comprehensive code quality and security review"
+    description: "Revisión integral de calidad y seguridad del código"
     steps:
-      - structure-analyzer  # Map the codebase first
-      - code-improver       # Identify quality issues
-      - security-auditor    # Identify security issues
+      - structure-analyzer  # Mapear el codebase primero
+      - code-improver       # Identificar problemas de calidad
+      - security-auditor    # Identificar problemas de seguridad
 
   audit-full:
-    description: "Full project health audit"
+    description: "Auditoría completa de salud del proyecto"
     steps:
-      - structure-analyzer  # Architecture and structure health
-      - security-auditor    # Security posture
-      - test-strategist     # Test coverage and quality
-      - code-improver       # Code quality
-      - docs-generator      # Documentation gaps
+      - structure-analyzer  # Arquitectura y salud de la estructura
+      - security-auditor    # Postura de seguridad
+      - test-strategist     # Cobertura y calidad de tests
+      - code-improver       # Calidad del código
+      - docs-generator      # Brechas de documentación
 
   quick-review:
-    description: "Fast review of a single file or small module"
+    description: "Revisión rápida de un archivo o módulo pequeño"
     steps:
       - code-improver
       - security-auditor

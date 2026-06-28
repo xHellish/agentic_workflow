@@ -1,5 +1,0 @@
-
----
-Cursor-specific additions:
-When reading skill files, use the Cursor file references feature (@file) to quickly load SKILL.md and reference files into context.
-For multi-skill workflows, use the composer to chain skill outputs.
