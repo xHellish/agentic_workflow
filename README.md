@@ -1,54 +1,56 @@
 # Agentic Workspace
 
-Workspace agéntico para Claude Code. Contiene skills especializadas que se activan automáticamente según el contexto de la conversación.
+Workspace de Claude Code con skills especializadas para documentación, diagramas y revisión de código.
 
 ## Skills
 
 | Skill | Qué hace | Se activa cuando... |
 |-------|----------|---------------------|
-| `docs` | Genera y actualiza `README.md` y `Documentation.md` | Pides documentar, crear el README, registrar una decisión |
-| `diagrams` | Diagramas Mermaid (C4, secuencia, flujo) y DBML | Pides un diagrama de arquitectura, de BD, o un flujo |
-| `code-quality` | Revisa lógica y claridad, propone mejoras sin editar | Pides un code review o sugerencias de mejora |
+| `docs` | Genera y actualiza `README.md` y `Documentation.md` | Pides documentar, crear el README, registrar una decisión técnica |
+| `diagrams` | Genera diagramas Mermaid (C4, secuencia, flujo) y DBML para base de datos | Pides un diagrama de arquitectura, de la DB, o un flujo |
+| `code-quality` | Revisa lógica y claridad del código. Propone mejoras con antes/después. No edita archivos. | Pides revisar código o un code review |
+
+La activación es automática por contexto — no necesitas invocar la skill explícitamente.
+
+## Usar en un proyecto nuevo
+
+Clona el repo, desvinculalo del historial y empieza tu proyecto:
+
+```bash
+git clone <url> mi-proyecto
+cd mi-proyecto
+rm -rf .git          # PowerShell: Remove-Item -Recurse -Force .git
+git init
+```
+
+Reinicia Claude Code en el directorio del proyecto para que cargue el `CLAUDE.md`.
 
 ## Estructura
 
 ```
 .agents/
-├── manifest.json              # Catálogo de skills (fuente de verdad)
-├── config.yaml                # Convenciones del workspace
+├── manifest.json          # Catálogo de skills (fuente de verdad)
+├── config.yaml            # Convenciones de commits y configuración
+├── skills/
+│   ├── docs/SKILL.md
+│   ├── diagrams/SKILL.md
+│   └── code-quality/SKILL.md
 ├── scripts/
-│   ├── generate_agent_rules.py  # Regenera CLAUDE.md desde manifest.json
-│   └── validate_skills.py       # Valida integridad del catálogo
-├── tests/
-│   └── test_validate_skills.py
-└── skills/
-    ├── docs/
-    ├── diagrams/
-    └── code-quality/
-CLAUDE.md                      # Instrucciones para Claude Code (auto-generado)
+│   ├── generate_agent_rules.py   # Regenera CLAUDE.md desde manifest.json
+│   └── validate_skills.py        # Valida integridad de las skills
+└── tests/
+    └── test_validate_skills.py
 ```
-
-## Agregar una skill
-
-1. Crear `.agents/skills/<nombre>/SKILL.md`
-2. Agregar la entrada en `.agents/manifest.json`
-3. Ejecutar `python .agents/scripts/generate_agent_rules.py`
 
 ## Mantenimiento
 
 ```bash
+# Después de editar una skill o el manifest.json
+python .agents/scripts/generate_agent_rules.py
+
 # Validar integridad de las skills
 python .agents/scripts/validate_skills.py
 
-# Regenerar CLAUDE.md tras editar manifest.json o config.yaml
-python .agents/scripts/generate_agent_rules.py
-```
-
-## Usar en un proyecto nuevo
-
-```bash
-git clone <url> mi-proyecto
-cd mi-proyecto
-rm -rf .git
-git init
+# Correr tests del workspace
+pytest .agents/tests/
 ```
