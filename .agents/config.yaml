@@ -13,6 +13,12 @@ workspace:
 # ──────────────────────────────────────────────────────────────────────────
 conventions:
   # ──────────────────────────────────────────────────────────────────────────
+  # Comportamiento en cada tarea.
+  # ──────────────────────────────────────────────────────────────────────────
+  workflow:
+    update_docs: true   # Al terminar cualquier tarea, revisar y actualizar README.md y Documentation.md si corresponde
+
+  # ──────────────────────────────────────────────────────────────────────────
   # Estilo de código generado.
   # El generador vuelca estas reglas en CLAUDE.md → aplican siempre.
   # ──────────────────────────────────────────────────────────────────────────

@@ -86,6 +86,7 @@ def build_conventions_section(config: dict) -> str:
     conv = (config or {}).get("conventions", {})
     if not conv:
         return ""
+    workflow = conv.get("workflow", {})
     code = conv.get("code", {})
     commits = conv.get("commits", {})
     out = ["", "## Convenciones del Proyecto", ""]
@@ -93,6 +94,13 @@ def build_conventions_section(config: dict) -> str:
         "> Fuente de verdad: `.agents/config.yaml` → `conventions`. "
         "Aplicar SIEMPRE, no solo cuando se activa una skill."
     )
+    if workflow.get("update_docs"):
+        out.append("")
+        out.append("**Al terminar cualquier tarea:**")
+        out.append("- Revisa si `README.md` y `Documentation.md` necesitan actualizarse.")
+        out.append("- Si el cambio afecta la arquitectura, el stack, los flujos o las decisiones técnicas → actualiza `Documentation.md`.")
+        out.append("- Si el cambio afecta la instalación, el stack usado o la descripción del proyecto → actualiza `README.md`.")
+        out.append("- El Decision Log siempre va al final de `Documentation.md`.")
     if code:
         out.append("")
         out.append("**Código** (todo código que escribas):")

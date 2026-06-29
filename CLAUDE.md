@@ -33,6 +33,12 @@ Este workspace usa una arquitectura basada en **skills**. Antes de responder a c
 
 > Fuente de verdad: `.agents/config.yaml` → `conventions`. Aplicar SIEMPRE, no solo cuando se activa una skill.
 
+**Al terminar cualquier tarea:**
+- Revisa si `README.md` y `Documentation.md` necesitan actualizarse.
+- Si el cambio afecta la arquitectura, el stack, los flujos o las decisiones técnicas → actualiza `Documentation.md`.
+- Si el cambio afecta la instalación, el stack usado o la descripción del proyecto → actualiza `README.md`.
+- El Decision Log siempre va al final de `Documentation.md`.
+
 **Código** (todo código que escribas):
 - Código en inglés; comentarios en español.
 - Sin docstrings de triple comilla — solo `#` para comentarios.
