@@ -35,25 +35,16 @@ Reinicia Claude Code en el directorio del proyecto para que cargue el `CLAUDE.md
 │   ├── docs/SKILL.md
 │   ├── diagrams/SKILL.md
 │   └── code-quality/SKILL.md
-├── scripts/
-│   ├── generate_agent_rules.py   # Regenera CLAUDE.md desde manifest.json
-│   └── validate_skills.py        # Valida integridad de las skills
-└── tests/
-    └── test_validate_skills.py
+└── scripts/
+    └── generate_agent_rules.py   # Regenera CLAUDE.md desde manifest.json
 ```
 
 ## Mantenimiento
 
 ```bash
-# Instalar dependencias (necesario para los comandos de abajo)
+# Instalar dependencias (necesario para regenerar)
 pip install -r requirements.txt
 
-# Después de editar una skill o el manifest.json
+# Después de editar una skill, el manifest.json o el config.yaml
 python .agents/scripts/generate_agent_rules.py
-
-# Validar integridad de las skills
-python .agents/scripts/validate_skills.py
-
-# Correr tests del workspace
-pytest .agents/tests/
 ```

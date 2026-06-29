@@ -1,5 +1,4 @@
 # Agentic Workspace — Python Dependencies
 # Install with: pip install -r requirements.txt
 
-pytest>=8.0.0      # Tests de validate_skills.py
 pyyaml>=6.0.1      # Requerido por generate_agent_rules.py

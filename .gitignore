@@ -7,11 +7,6 @@ __pycache__/
 .venv/
 venv/
 
-# Caches de herramientas
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-
 # OS / editor
 .DS_Store
 Thumbs.db
