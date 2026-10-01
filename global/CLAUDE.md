@@ -19,12 +19,15 @@ En código, comentarios, README y documentación: nunca uses el guión largo `�
 ## Código
 
 - Código en inglés; comentarios en español.
-- Mensajes de error y de log en inglés.
+- Toda la salida del programa en inglés: prints, logs y mensajes de error.
 - Sin docstrings de triple comilla; solo comentarios de una línea con `#`.
-- Nombres en `snake_case`, descriptivos y en inglés.
+- Nombres descriptivos y en inglés: `snake_case` para variables y funciones; constantes en mayúsculas (`UPPER_SNAKE_CASE`, ej. `VALID_STATUSES`).
 - Errores siempre explícitos con mensaje específico; nunca silenciar excepciones.
 - Estructura pragmática: sin patrones ni capas forzadas si no hacen falta.
+- Justo encima de cada función, un comentario `#` de una línea que diga en corto qué hace.
 - Dentro de las funciones, comentarios `#` que guíen el procedimiento paso a paso.
+- Ciclos y condicionales siempre en bloque, nunca en una sola línea: sin comprehensions (`[x for x in lista]`) ni ternarios (`a if cond else b`). `enumerate` y `.items()` sí se usan.
+- Para saber si una lista está vacía, comparación explícita con `len()`: `if len(tasks) == 0:` o `if len(tasks) > 0:`, en lugar de `if not tasks:` o `if tasks:`.
 - Salida: `print` / `console.log` en scripts sueltos; logging con niveles en apps y APIs.
 - Variables de entorno en `.env`, siempre ignorado por git. No crear `.env.example`.
 - Cada sección del archivo (imports, variables, clases, funciones, etc.) se separa así:
@@ -45,6 +48,7 @@ En código, comentarios, README y documentación: nunca uses el guión largo `�
 ### Node.js
 
 - JavaScript (no TypeScript) con módulos ESM: `import` / `export` y `"type": "module"`.
+- Lo mismo en JavaScript: ciclos en bloque (`for (const item of lista)`) en lugar de `map` / `filter` en una línea, y sin ternarios `a ? b : c`.
 
 ## Documentación
 
