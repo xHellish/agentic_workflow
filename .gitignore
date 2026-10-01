@@ -1,12 +1,6 @@
 # Notas locales (no versionar)
 mejoras_actuales.md
 
-# Python
-__pycache__/
-*.py[cod]
-.venv/
-venv/
-
 # OS / editor
 .DS_Store
 Thumbs.db

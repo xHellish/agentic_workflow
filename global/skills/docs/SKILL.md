@@ -1,6 +1,6 @@
 ---
 name: docs
-description: "Genera y actualiza README.md conciso y Documentation.md técnico incremental. Siempre en español."
+description: "Crea y mantiene la documentación Markdown del repositorio en español: README.md (qué es, cómo correrlo, variables de entorno, stack) y Documentation.md (arquitectura, base de datos, flujos, DevOps y Decision Log al final). Usar cuando el usuario pida documentar el proyecto, crear o actualizar el README o Documentation.md, o registrar una decisión técnica en el Decision Log. No usar para documentos Word, PDF ni documentos compartidos fuera del repo."
 ---
 
 # Rol

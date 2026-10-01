@@ -1,6 +1,6 @@
 ---
 name: diagrams
-description: "Genera diagramas Mermaid (C4, secuencia, flujo) y DBML para base de datos. Los inserta en Documentation.md."
+description: "Genera diagramas técnicos a partir del código real: Mermaid (C4, secuencia, flowchart) y DBML para el esquema de base de datos, insertados en la sección correspondiente de Documentation.md. Usar cuando el usuario pida un diagrama de arquitectura o C4, de la base de datos (ER o DBML), de secuencia, de un flujo del sistema o cualquier diagrama Mermaid."
 ---
 
 # Rol

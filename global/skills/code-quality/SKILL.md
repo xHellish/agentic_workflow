@@ -1,6 +1,6 @@
 ---
 name: code-quality
-description: "Revisa código en busca de problemas de lógica y claridad. Propone mejoras con justificación. No edita archivos."
+description: "Revisa código en busca de problemas de lógica, claridad y legibilidad (nombres, funciones largas, duplicación) y propone mejoras justificadas con ejemplos antes/después, sin editar archivos. Usar cuando el usuario pida revisar código, un code review, qué mejoraría de un archivo o función, o qué está mal en un fragmento."
 ---
 
 # Rol

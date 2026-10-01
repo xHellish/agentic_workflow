@@ -1,50 +1,59 @@
 # Agentic Workspace
 
-Workspace de Claude Code con skills especializadas para documentación, diagramas y revisión de código.
+Mi configuración personal de Claude Code: convenciones y skills que aplican en todos mis proyectos sin copiar nada.
+
+## Cómo funciona
+
+La carpeta `global/` está enlazada a `~/.claude/`, que es donde Claude Code lee la configuración de usuario en cualquier proyecto. Editar un archivo de este repo cambia el comportamiento en todos los proyectos al instante.
+
+| En el repo | Se carga como | Contenido |
+|------------|---------------|-----------|
+| `global/CLAUDE.md` | importado desde `~/.claude/CLAUDE.md` | Idioma, estilo de código, commits y documentación |
+| `global/skills/` | `~/.claude/skills/` | Skills personales |
 
 ## Skills
 
-| Skill | Qué hace | Se activa cuando... |
-|-------|----------|---------------------|
-| `docs` | Genera y actualiza `README.md` y `Documentation.md` | Pides documentar, crear el README, registrar una decisión técnica |
-| `diagrams` | Genera diagramas Mermaid (C4, secuencia, flujo) y DBML para base de datos | Pides un diagrama de arquitectura, de la DB, o un flujo |
-| `code-quality` | Revisa lógica y claridad del código. Propone mejoras con antes/después. No edita archivos. | Pides revisar código o un code review |
+| Skill | Qué hace |
+|-------|----------|
+| `docs` | Crea y mantiene `README.md` y `Documentation.md` |
+| `diagrams` | Diagramas Mermaid (C4, secuencia, flujo) y DBML dentro de `Documentation.md` |
+| `code-quality` | Revisa lógica y claridad del código con ejemplos antes/después, sin editar archivos |
 
-La activación es automática por contexto — no necesitas invocar la skill explícitamente.
+Se activan solas según su `description`. También se pueden invocar a mano: `/docs`, `/diagrams`, `/code-quality`.
 
-## Usar en un proyecto nuevo
+## Instalación (una vez por máquina)
 
-Clona el repo, desvinculalo del historial y empieza tu proyecto:
+1. Clona el repo en una ruta fija.
+2. En PowerShell, desde la raíz del repo:
 
-```bash
-git clone <url> mi-proyecto
-cd mi-proyecto
-rm -rf .git          # PowerShell: Remove-Item -Recurse -Force .git
-git init
+   ```powershell
+   New-Item -ItemType Junction -Path "$HOME\.claude\skills" -Target "$PWD\global\skills"
+   New-Item -ItemType Junction -Path "$HOME\.claude\agentic" -Target "$PWD\global"
+   Set-Content -Path "$HOME\.claude\CLAUDE.md" -Value "@~/.claude/agentic/CLAUDE.md" -Encoding ascii
+   ```
+
+3. Reinicia Claude Code.
+
+`~/.claude/skills` no debe existir antes del paso 2. Si ya tienes skills ahí, muévelas primero a `global/skills/`.
+
+## Proyecto nuevo
+
+No hay que copiar nada: crea la carpeta, haz `git init` y abre Claude Code ahí. Las convenciones y las skills ya están activas.
+
+Lo único propio de cada proyecto es su `CLAUDE.md` (stack, cómo correrlo, estructura). Se puede generar con `/init`.
+
+## Agregar o editar una skill
+
+1. Crea o edita `global/skills/<nombre>/SKILL.md`.
+2. El frontmatter necesita `name` (igual al nombre de la carpeta) y `description`. La `description` decide cuándo se activa la skill: debe decir qué hace y cuándo usarla.
+3. Haz commit para versionar el cambio. En otras máquinas basta con `git pull`.
+
+## Desinstalar
+
+```powershell
+cmd /c rmdir "$HOME\.claude\skills"
+cmd /c rmdir "$HOME\.claude\agentic"
+Remove-Item "$HOME\.claude\CLAUDE.md"
 ```
 
-Reinicia Claude Code en el directorio del proyecto para que cargue el `CLAUDE.md`.
-
-## Estructura
-
-```
-.agents/
-├── manifest.json          # Catálogo de skills (fuente de verdad)
-├── config.yaml            # Convenciones de commits y configuración
-├── skills/
-│   ├── docs/SKILL.md
-│   ├── diagrams/SKILL.md
-│   └── code-quality/SKILL.md
-└── scripts/
-    └── generate_agent_rules.py   # Regenera CLAUDE.md desde manifest.json
-```
-
-## Mantenimiento
-
-```bash
-# Instalar dependencias (necesario para regenerar)
-pip install -r requirements.txt
-
-# Después de editar una skill, el manifest.json o el config.yaml
-python .agents/scripts/generate_agent_rules.py
-```
+`rmdir` quita solo el enlace. Nunca borres esos enlaces de forma recursiva: se borrarían los archivos del repo.
