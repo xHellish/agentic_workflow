@@ -8,7 +8,7 @@ La carpeta `global/` está enlazada a `~/.claude/`, que es donde Claude Code lee
 
 | En el repo | Se carga como | Contenido |
 |------------|---------------|-----------|
-| `global/CLAUDE.md` | importado desde `~/.claude/CLAUDE.md` | Idioma, estilo de código, commits y documentación |
+| `global/CLAUDE.md` | importado desde `~/.claude/CLAUDE.md` | Idioma, forma de trabajar, estilo de código, documentación y git |
 | `global/skills/` | `~/.claude/skills/` | Skills personales |
 
 ## Skills
