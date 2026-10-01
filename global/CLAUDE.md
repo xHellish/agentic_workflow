@@ -10,7 +10,7 @@ Responde siempre en español.
 
 - Ante una tarea grande o ambigua, entrevístame sobre el "cómo" antes de implementar.
 - Después de un cambio de código, verifícalo corriéndolo (o corriendo sus tests) siempre que se pueda.
-- Si una tarea necesita una dependencia nueva, prefiere la librería estándar y pregúntame antes de agregarla.
+- Nunca agregues dependencias ni herramientas (librerías, formateadores, linters) sin preguntarme; prefiere la librería estándar.
 
 ## Estilo de escritura
 
@@ -44,11 +44,15 @@ En código, comentarios, README y documentación: nunca uses el guión largo `�
 
 - Sin type hints.
 - Formato y lint con Ruff.
+- El logger del módulo va en minúscula (`logger = logging.getLogger(...)`); no cuenta como constante.
 
 ### Node.js
 
 - JavaScript (no TypeScript) con módulos ESM: `import` / `export` y `"type": "module"`.
 - Lo mismo en JavaScript: ciclos en bloque (`for (const item of lista)`) en lugar de `map` / `filter` en una línea, y sin ternarios `a ? b : c`.
+- Comentarios con `//` y el mismo formato de secciones (`// ===`, nombre, `// ---`); sin bloques `/** */`.
+- `snake_case` también en JavaScript; las APIs de Node y de librerías conservan su nombre (`readFile`).
+- Sangría de 2 espacios. Sin formateador para JS por ahora.
 
 ## Documentación
 
