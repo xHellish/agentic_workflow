@@ -1,6 +1,9 @@
 # Notas locales (no versionar)
 mejoras_actuales.md
 
+# Skills que la app de Claude sincroniza en ~/.claude/skills (enlazado a global/skills)
+global/skills/synced/
+
 # OS / editor
 .DS_Store
 Thumbs.db

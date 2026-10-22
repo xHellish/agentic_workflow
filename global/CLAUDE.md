@@ -43,7 +43,7 @@ En c贸digo, comentarios, README y documentaci贸n: nunca uses el gui贸n largo `鈥
 ### Python
 
 - Sin type hints.
-- Formato y lint con Ruff.
+- Formato y lint con Ruff: tras editar Python, corre `ruff format` y `ruff check` sobre los archivos que tocaste antes de dar el cambio por terminado.
 - El logger del m贸dulo va en min煤scula (`logger = logging.getLogger(...)`); no cuenta como constante.
 
 ### Node.js
@@ -56,12 +56,14 @@ En c贸digo, comentarios, README y documentaci贸n: nunca uses el gui贸n largo `鈥
 
 ## Documentaci贸n
 
-Al terminar cualquier tarea:
+Al terminar cualquier tarea en un proyecto:
 
 - Revisa si `README.md` y `Documentation.md` necesitan actualizarse.
 - Si el cambio afecta la arquitectura, el stack, los flujos o las decisiones t茅cnicas, actualiza `Documentation.md`.
 - Si el cambio afecta la instalaci贸n, el stack usado o la descripci贸n del proyecto, actualiza `README.md`.
 - El Decision Log siempre va al final de `Documentation.md`, con la entrada m谩s reciente arriba.
+
+Solo aplica a proyectos (carpetas con su propio repo de git o una aplicaci贸n). En scripts sueltos o carpetas de prueba no crees `README.md` ni `Documentation.md` salvo que lo pida.
 
 ## Git
 

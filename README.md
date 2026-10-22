@@ -15,11 +15,13 @@ La carpeta `global/` está enlazada a `~/.claude/`, que es donde Claude Code lee
 
 | Skill | Qué hace |
 |-------|----------|
-| `docs` | Crea y mantiene `README.md` y `Documentation.md` |
+| `repo-docs` | Crea y mantiene `README.md` y `Documentation.md` |
 | `diagrams` | Diagramas Mermaid (C4, secuencia, flujo) y DBML dentro de `Documentation.md` |
-| `code-quality` | Revisa lógica y claridad del código con ejemplos antes/después, sin editar archivos |
+| `code-quality` | Revisa lógica, claridad y tus convenciones de código con ejemplos antes/después, sin editar archivos |
 
-Se activan solas según su `description`. También se pueden invocar a mano: `/docs`, `/diagrams`, `/code-quality`.
+Se activan solas según su `description`. También se pueden invocar a mano: `/repo-docs`, `/diagrams`, `/code-quality`.
+
+La app de Claude sincroniza las skills de tu cuenta en `~/.claude/skills/synced/`. Como esa carpeta es `global/skills/` de este repo, `synced/` está en el `.gitignore`: no la commitees ni la borres a mano.
 
 ## Instalación (una vez por máquina)
 
@@ -29,12 +31,15 @@ Se activan solas según su `description`. También se pueden invocar a mano: `/d
    ```powershell
    New-Item -ItemType Junction -Path "$HOME\.claude\skills" -Target "$PWD\global\skills"
    New-Item -ItemType Junction -Path "$HOME\.claude\agentic" -Target "$PWD\global"
-   Set-Content -Path "$HOME\.claude\CLAUDE.md" -Value "@~/.claude/agentic/CLAUDE.md" -Encoding ascii
+   # Agrega el import al final de ~/.claude/CLAUDE.md sin borrar lo que ya tenga
+   Add-Content -Path "$HOME\.claude\CLAUDE.md" -Value "`n@~/.claude/agentic/CLAUDE.md" -Encoding ascii
    ```
 
 3. Reinicia Claude Code.
 
 `~/.claude/skills` no debe existir antes del paso 2. Si ya tienes skills ahí, muévelas primero a `global/skills/`.
+
+`~/.claude/CLAUDE.md` no se sobrescribe porque otras herramientas también escriben ahí (por ejemplo, Postman agrega su propio bloque).
 
 ## Proyecto nuevo
 
@@ -53,7 +58,8 @@ Lo único propio de cada proyecto es su `CLAUDE.md` (stack, cómo correrlo, estr
 ```powershell
 cmd /c rmdir "$HOME\.claude\skills"
 cmd /c rmdir "$HOME\.claude\agentic"
-Remove-Item "$HOME\.claude\CLAUDE.md"
 ```
+
+Después abre `~/.claude/CLAUDE.md` y borra solo la línea `@~/.claude/agentic/CLAUDE.md`. No borres el archivo completo: puede tener contenido de otras herramientas.
 
 `rmdir` quita solo el enlace. Nunca borres esos enlaces de forma recursiva: se borrarían los archivos del repo.

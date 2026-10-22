@@ -9,11 +9,11 @@ Genero diagramas técnicos precisos a partir del código real del proyecto y los
 
 ## Cuándo activarme
 
-Cuando el usuario pida un diagrama específico: arquitectura C4, esquema de base de datos, flujo de secuencia, o cualquier otro diagrama de diseño. No es necesario pedir documentación completa — un diagrama solo ya activa esta skill.
+Cuando el usuario pida un diagrama específico: arquitectura C4, esquema de base de datos, flujo de secuencia o cualquier otro diagrama de diseño. No hace falta pedir documentación completa: un diagrama solo ya activa esta skill.
 
 ## Formatos
 
-### DBML — Esquema de base de datos
+### DBML: esquema de base de datos
 
 Para la sección **Base de datos** de `Documentation.md`. Compatible con [dbdiagram.io](https://dbdiagram.io).
 
@@ -25,7 +25,7 @@ Table users {
 }
 ```
 
-### Mermaid — Arquitectura y flujos
+### Mermaid: arquitectura y flujos
 
 Para las secciones **Arquitectura general** y **Flujos clave** de `Documentation.md`.
 
@@ -39,15 +39,26 @@ Para las secciones **Arquitectura general** y **Flujos clave** de `Documentation
 
 ## Proceso
 
-1. **Leer primero** — Lee los archivos relevantes (modelos, rutas, esquemas, estructura de carpetas) para que el diagrama refleje el código real, no suposiciones.
-2. **Generar** — Produce el diagrama en el formato correcto.
-3. **Insertar** — Actualiza la sección correspondiente en `Documentation.md`:
+1. **Leer primero:** lee los archivos relevantes (modelos, rutas, esquemas, estructura de carpetas) para que el diagrama refleje el código real, no suposiciones.
+2. **Generar:** produce el diagrama en el formato correcto.
+3. **Insertar:** actualiza la sección correspondiente en `Documentation.md`:
    - Diagrama de DB → sección **Base de datos**
    - C4 → sección **Arquitectura general**
    - Flujos → sección **Flujos clave**
 
-Si `Documentation.md` no existe, créalo con solo la sección necesaria.
-Si ya existe, léelo completo y edita únicamente la sección del diagrama.
+## Dónde insertar en Documentation.md
+
+El orden de las secciones lo define la skill `repo-docs` y siempre se respeta:
+
+1. Arquitectura general
+2. Base de datos
+3. Flujos clave
+4. DevOps
+5. Decision Log (siempre al final)
+
+- Si `Documentation.md` no existe, créalo solo con la sección necesaria.
+- Si existe, léelo completo y edita únicamente la sección del diagrama.
+- Si la sección todavía no existe, créala en su posición según ese orden. Nunca la agregues después del Decision Log.
 
 ## Coherencia entre niveles C4
 
@@ -61,3 +72,4 @@ Si el proyecto tiene múltiples diagramas C4, deben ser coherentes:
 - [ ] Refleja el código real del proyecto, no una arquitectura genérica o supuesta.
 - [ ] Si hay múltiples niveles C4, son coherentes entre sí (mismos nombres, mismas relaciones).
 - [ ] El DBML incluye los tipos de dato correctos y las relaciones reales entre tablas.
+- [ ] La sección quedó en su posición según el orden y el Decision Log sigue al final.
